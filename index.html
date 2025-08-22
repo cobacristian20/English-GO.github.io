@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENGLISH-GO - Aprende Jugando</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      color: #5d4037;
+      overflow-x: hidden;
+    }
+
+    /* Pantalla de bienvenida */
+    #splash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #f5e6d3; /* tono tierra pastel */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      overflow: hidden;
+      transition: opacity 1s ease;
+    }
+
+    #splash img {
+      width: 300px;
+      opacity: 0;
+      animation: slideInLeft 1s forwards;
+    }
+
+    #splash h1 {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 3.5rem;
+      color: #a77b5a;
+      margin-top: 20px;
+      opacity: 0;
+      animation: slideUp 1s forwards;
+      animation-delay: 1s;
+    }
+
+     #splash h2 {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 2.5rem;
+      color: #a77b5a;
+      margin-top: 20px;
+      opacity: 0;
+      animation: slideUp 1s forwards;
+      animation-delay: 1s;
+    }
+
+    @keyframes slideInLeft {
+      0% { transform: translateX(-200px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(100px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Ocultar el splash */
+    #splash.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Contenido de la página principal */
+    #contenido {
+      display: none;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+
+    nav a {
+      color: white;
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ffe0c4;
+    }
+
+    .contenido-principal {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .contenido-principal h2 {
+      font-size: 36px;
+      color: #7b5e4c;
+    }
+
+    .contenido-principal p {
+      font-size: 25px;
+      max-width: 800px;
+      margin: 10px auto;
+    }
+
+    #frase-motivadora {
+      font-size: 24px;
+      font-weight: bold;
+      color: #a77b5a;
+      margin-top: 30px;
+      min-height: 40px;
+      animation: fadeSwap 4s infinite;
+    }
+
+    @keyframes fadeSwap {
+      0% { opacity: 0; transform: translateY(10px); }
+      20% { opacity: 1; transform: translateY(0); }
+      80% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-10px); }
+    }
+
+    .secciones-horizontales {
+      display: flex;
+      overflow: hidden;
+      scroll-snap-type: x mandatory;
+    }
+
+    .secciones-horizontales section {
+      scroll-snap-align: start;
+      min-width: 100vw;
+      padding: 40px;
+      display: flex;
+      gap: 30px;
+      background-color: #fdf6ee;
+      align-items: center;
+    }
+
+    .col-izquierda {
+      flex: 1;
+      text-align: right;
+      padding-right: 30px;
+    }
+
+    .col-derecha {
+      flex: 2;
+    }
+
+    .col-izquierda h3 {
+      font-size: 26px;
+      color: #5d4037;
+    }
+
+    .col-izquierda i {
+      font-size: 48px;
+      color: #a77b5a;
+      margin-bottom: 15px;
+    }
+
+    .col-derecha ul {
+      list-style-type: none;
+      padding-left: 0;
+      font-size: 18px;
+    }
+
+    .col-derecha ul li {
+      margin: 10px 0;
+    }
+
+    .col-derecha p {
+      font-size: 18px;
+    }
+
+    .boton-comenzar {
+      display: inline-block;
+      margin: 40px auto;
+      padding: 20px 40px;
+      font-size: 28px;
+      font-weight: bold;
+      background-color: #f4c98b;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .boton-comenzar:hover {
+      background-color: #ddab66;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+    }
+
+    .galeria {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .galeria img {
+      width: 300px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease;
+    }
+
+    .galeria img:hover {
+      transform: scale(1.05);
+    }
+
+    .indicadores {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .indicadores span {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin: 0 5px;
+      background-color: #c9c9b3;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+
+    .indicadores .activo {
+      background-color: #5d4037;
+      opacity: 1;
+    }
+
+    #modalGrado {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+   <!-- Pantalla de bienvenida -->
+  <div id="splash">
+    <img src="PROGRAMACION/img/logo.png" alt="Logo ENGLISH-GO">
+    <h1>ENGLISH-GO</h1>
+    <h2>¡TE DAMOS LA BIENVENIDA A NUESTRA PÁGINA!</h2>
+  </div>
+  <audio id="sonido" src="bienvenida.mp3" preload="auto"></audio>
+
+<header class="encabezado">
+  <img src="PROGRAMACION/img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+
+  <main class="contenido-principal">
+    <h2>¡Bienvenido a ENGLISH-GO! 🌟</h2>
+    <p>En ENGLISH-GO, aprender inglés se convierte en una aventura divertida, mágica y llena de sorpresas.</p>
+    <p>¡Acompáñanos en este viaje! Cada juego, lección y actividad está diseñado para ayudarte a crecer, ganar premios, y convertirte en un campeón del idioma inglés. 🎮📚✨</p>
+    <p id="frase-motivadora"></p>
+  </main>
+
+  <div class="secciones-horizontales" id="slider">
+    <section>
+      <div class="col-izquierda">
+        <i class="fas fa-gamepad"></i>
+        <h3>¿Por qué aprender con ENGLISH-GO?</h3>
+      </div>
+      <div class="col-derecha">
+        <ul>
+          <li>🎮 Juegos interactivos</li>
+          <li>⭐ Obten mejores resultados</li>
+          <li>🧠 Mejora tu vocabulario</li>
+          <li>🧑‍🏫 Para 4º y 5º grado</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="col-izquierda">
+        <i class="fas fa-lightbulb"></i>
+        <h3>¿Qué aprenderás?</h3>
+      </div>
+      <div class="col-derecha">
+        <ul>
+          <li>🗣️ Vocabulario básico</li>
+          <li>📚 Comprensión de frases</li>
+          <li>🎵 Canciones y juegos</li>
+          <li>✏️ Actividades prácticas</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="col-izquierda">
+        <i class="fas fa-star"></i>
+        <h3>¡Mejora tus calificaciones!</h3>
+      </div>
+      <div class="col-derecha">
+        <p>Con nuestras lecciones mejoraras tus calificaciones de una manera divertida.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="indicadores" id="indicadores">
+    <span class="activo"></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div style="text-align: center;">
+    <button class="boton-comenzar" onclick="mostrarSeleccionGrado()">¡Comenzar! 🚀</button>
+  </div>
+
+  <div id="modalGrado">
+    <div style="background: #f5e6d3; padding: 30px; border-radius: 15px; text-align: center; max-width: 300px;">
+      <h2>Selecciona tu grado 📘</h2>
+      <button onclick="window.location.href='PROGRAMACION/grado4.html'" style="margin: 10px; padding: 10px 20px; font-size: 16px; border-radius: 8px; background-color: #cca18f;">4° grado</button>
+      <button onclick="window.location.href='PROGRAMACION/grado5.html'" style="margin: 10px; padding: 10px 20px; font-size: 16px; border-radius: 8px; background-color: #cca18f;">5° grado</button>
+      <br><br>
+      <button onclick="cerrarModal()" style="background: #cca18f; padding: 8px 20px; border-radius: 8px;">Cancelar</button>
+    </div>
+  </div>
+
+  <section class="galeria">
+    <img src="PROGRAMACION/img/aprendizaje2.jpg" alt="Niños aprendiendo">
+    <img src="PROGRAMACION/img/aprendizaje4.jpg" alt="Juego educativo">
+    <img src="PROGRAMACION/img/aprendizaje3.jpg" alt="Sistema de recompensas">
+  </section>
+
+  <script>
+    const sonido = document.getElementById("sonido");
+
+    // Reproduce el sonido al iniciar la animación
+    window.addEventListener("load", () => {
+      sonido.play().catch(() => {
+        console.log("El navegador bloqueó la reproducción automática");
+      });
+    });
+
+        // Espera 3 segundos y oculta el splash
+    setTimeout(() => {
+      document.getElementById("splash").classList.add("hidden");
+      setTimeout(() => {
+        document.getElementById("splash").style.display = "none";
+        document.getElementById("contenido").style.display = "block";
+      }, 1000); // tiempo de transición
+    }, 3000);
+    const frases = [
+      "¡Aprender inglés es una aventura! 🌍",
+      "¡Tú puedes lograrlo! 💪",
+      "¡Gana estrellas mientras aprendes! ⭐",
+      "¡Prepárate para divertirte aprendiendo! 🎮"
+    ];
+    let index = 0;
+    const fraseElemento = document.getElementById("frase-motivadora");
+    fraseElemento.textContent = frases[0];
+
+    setInterval(() => {
+      index = (index + 1) % frases.length;
+      fraseElemento.textContent = frases[index];
+    }, 4000);
+
+    const slider = document.getElementById('slider');
+    const secciones = slider.querySelectorAll('section');
+    const indicadores = document.getElementById('indicadores').children;
+    let currentIndex = 0;
+
+    function actualizarIndicadores() {
+      [...indicadores].forEach((dot, i) => {
+        dot.classList.toggle('activo', i === currentIndex);
+      });
+    }
+
+    function avanzarAutomaticamente() {
+      currentIndex = (currentIndex + 1) % secciones.length;
+      slider.scrollTo({
+        left: slider.offsetWidth * currentIndex,
+        behavior: 'smooth'
+      });
+      actualizarIndicadores();
+    }
+
+    setInterval(avanzarAutomaticamente, 5000);
+
+    function mostrarSeleccionGrado() {
+      document.getElementById('modalGrado').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+      document.getElementById('modalGrado').style.display = 'none';
+    }
+
+  
+  </script>
+</body>
+</html>

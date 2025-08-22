@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ordena la pregunta - ENGLISH-GO</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #fcebd5, #f5d7b6);
+      font-family: 'Comic Sans MS', cursive;
+      color: #4b3f2f;
+      text-align: center;
+      padding: 30px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+      font-size: 2rem;
+    }
+
+    .zona {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px auto;
+      padding: 10px;
+      min-height: 60px;
+      border: 2px dashed #a77b5a;
+      background-color: #fff3e0;
+      border-radius: 12px;
+    }
+
+    .palabra {
+      background-color: #f4c98b;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      border: 2px solid #a77b5a;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .correcta {
+      background-color: #d4edda;
+      border-color: green;
+    }
+
+    .incorrecta {
+      background-color: #f8d7da;
+      border-color: red;
+    }
+
+    button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 1rem;
+      background-color: #a77b5a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #926449;
+    }
+
+    #mensaje {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      min-height: 24px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>🧩 Ordena la pregunta</h1>
+  <p>Arrastra las palabras para formar correctamente la pregunta en pasado.</p>
+
+  <div class="zona" id="zona-palabras" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+  <div class="zona" id="zona-frase" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+
+  <button onclick="verificar()">Verificar</button>
+  <button onclick="siguiente()" id="btnSiguiente" disabled>Siguiente ▶</button>
+  <button onclick="location.reload()">🔁 Reiniciar</button>
+
+  <div id="mensaje"></div>
+  <a href="pasado-simple.html" class="volver">⬅ Volver</a>
+
+  <script>
+    const preguntas = [
+      ["Did", "you", "eat", "pizza", "yesterday?"],
+      ["Did", "she", "go", "to", "school", "on", "Monday?"],
+      ["Did", "they", "watch", "a", "movie?"],
+      ["Did", "he", "play", "football", "last", "week?"],
+      ["Did", "we", "visit", "grandma", "on", "Sunday?"]
+    ];
+
+    let indice = 0;
+
+    function crearPalabra(texto) {
+      const span = document.createElement("span");
+      span.textContent = texto;
+      span.className = "palabra";
+      span.draggable = true;
+      span.ondragstart = e => {
+        e.dataTransfer.setData("text/plain", texto);
+      };
+      return span;
+    }
+
+    function cargarPregunta() {
+      const zonaPalabras = document.getElementById("zona-palabras");
+      const zonaFrase = document.getElementById("zona-frase");
+      const mensaje = document.getElementById("mensaje");
+      document.getElementById("btnSiguiente").disabled = true;
+
+      zonaPalabras.innerHTML = "";
+      zonaFrase.innerHTML = "";
+      mensaje.textContent = "";
+
+      const palabras = [...preguntas[indice]].sort(() => Math.random() - 0.5);
+      palabras.forEach(p => zonaPalabras.appendChild(crearPalabra(p)));
+    }
+
+    function permitirSoltar(e) {
+      e.preventDefault();
+    }
+
+    function soltar(e) {
+      e.preventDefault();
+      const texto = e.dataTransfer.getData("text/plain");
+      const zona = e.target.closest(".zona");
+
+      if (!zona || !texto) return;
+
+      // Mover el elemento real
+      const elemento = [...document.querySelectorAll(".palabra")].find(el => el.textContent === texto);
+      if (elemento) zona.appendChild(elemento);
+    }
+
+    function verificar() {
+      const respuesta = [...document.getElementById("zona-frase").children];
+      const correcta = preguntas[indice];
+      const mensaje = document.getElementById("mensaje");
+
+      if (respuesta.length !== correcta.length) {
+        mensaje.textContent = "❗ Aún faltan palabras.";
+        mensaje.style.color = "orange";
+        return;
+      }
+
+      let esCorrecta = true;
+
+      respuesta.forEach((el, i) => {
+        if (el.textContent === correcta[i]) {
+          el.classList.add("correcta");
+          el.classList.remove("incorrecta");
+        } else {
+          el.classList.add("incorrecta");
+          el.classList.remove("correcta");
+          esCorrecta = false;
+        }
+      });
+
+      if (esCorrecta) {
+        mensaje.textContent = "✅ ¡Correcto!";
+        mensaje.style.color = "green";
+        document.getElementById("btnSiguiente").disabled = false;
+      } else {
+        mensaje.textContent = "❌ Revisa el orden.";
+        mensaje.style.color = "red";
+      }
+    }
+
+    function siguiente() {
+      indice++;
+      if (indice < preguntas.length) {
+        cargarPregunta();
+      } else {
+        document.body.innerHTML = `
+          <h1>🎉 ¡Has finalizado!</h1>
+          <p>¡Buen trabajo con las preguntas en pasado!</p>
+          <a class="volver" href="pasado-simple.html">⬅ Volver</a>
+        `;
+      }
+    }
+
+    window.onload = cargarPregunta;
+  </script>
+
+</body>
+</html>

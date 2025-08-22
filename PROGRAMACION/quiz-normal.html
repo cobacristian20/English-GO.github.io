@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz - Partes del cuerpo</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background-color: #fff6e0;
+      color: #4b3621;
+      text-align: center;
+      padding: 2rem;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h2 {
+      font-size: 1.6rem;
+      margin-top: 3rem;
+    }
+
+    .opciones {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .opcion {
+      border: 3px solid transparent;
+      border-radius: 12px;
+      padding: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.2s, border 0.2s;
+    }
+
+    .opcion img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+    }
+
+    .opcion.seleccionada {
+      border: 3px solid #f39c12;
+    }
+
+    .resultado {
+      margin-top: 1rem;
+      font-size: 1rem;
+      min-height: 1.5em;
+    }
+
+    #finalizar {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #finalizar:hover {
+      background-color: #219150;
+    }
+
+    .volver {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.volver a {
+  display: inline-block;
+  background-color: #fff3e0;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1em;
+  color: #6d4c41;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.volver a:hover {
+  background-color: #fce0b2;
+}
+
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>🧠 Practiquemos las partes del cuerpo</h1>
+
+
+  <div class="actividad">
+    <h2>1. ¿Cuál es la <span style="color: #d35400;">"ear"</span>?</h2>
+    <div class="opciones" data-correcta="oreja">
+      <div class="opcion" data-respuesta="pie">
+        <img src="img/partes/feet.jpg" alt="Pie">
+      </div>
+      <div class="opcion" data-respuesta="oreja">
+        <img src="img/partes/ear.jpg" alt="Oreja">
+      </div>
+      <div class="opcion" data-respuesta="mano">
+        <img src="img/partes/hand.jpg" alt="Mano">
+      </div>
+    </div>
+    <p class="resultado"></p>
+  </div>
+
+
+  <div class="actividad">
+    <h2>2. ¿Dónde está la <span style="color: #2980b9;">"leg"</span>?</h2>
+    <div class="opciones" data-correcta="pierna">
+      <div class="opcion" data-respuesta="pierna">
+        <img src="img/partes/leg.jpg" alt="Pierna">
+      </div>
+      <div class="opcion" data-respuesta="cuello">
+        <img src="img/partes/neck.jpg" alt="Cuello">
+      </div>
+      <div class="opcion" data-respuesta="codo">
+        <img src="img/partes/elbow.jpg" alt="Codo">
+      </div>
+    </div>
+    <p class="resultado"></p>
+  </div>
+
+<div class="actividad">
+  <h2>3. ¿Cuál es la <span style="color:#8e44ad;">"wrist"</span>?</h2>
+  <div class="opciones" data-correcta="muñeca">
+    <div class="opcion" data-respuesta="muñeca">
+      <img src="img/partes/wrist.jpg" alt="Muñeca">
+    </div>
+    <div class="opcion" data-respuesta="pierna">
+      <img src="img/partes/leg.jpg" alt="Pierna">
+    </div>
+    <div class="opcion" data-respuesta="mano">
+      <img src="img/partes/hand.jpg" alt="Mano">
+    </div>
+  </div>
+  <p class="resultado"></p>
+</div>
+
+
+<div class="actividad">
+  <h2>4. ¿Dónde están los <span style="color:#16a085;">"fingers"</span>?</h2>
+  <div class="opciones" data-correcta="dedos">
+    <div class="opcion" data-respuesta="codo">
+      <img src="img/partes/elbow.jpg" alt="Codo">
+    </div>
+    <div class="opcion" data-respuesta="dedos">
+      <img src="img/partes/finger.jpg" alt="Dedos">
+    </div>
+    <div class="opcion" data-respuesta="cuello">
+      <img src="img/partes/neck.jpg" alt="Cuello">
+    </div>
+  </div>
+  <p class="resultado"></p>
+</div>
+
+
+<div class="actividad">
+  <h2>5. ¿Cuál es el <span style="color:#c0392b;">"neck"</span>?</h2>
+  <div class="opciones" data-correcta="cuello">
+    <div class="opcion" data-respuesta="cuello">
+      <img src="img/partes/neck.jpg" alt="Cuello">
+    </div>
+    <div class="opcion" data-respuesta="cadera">
+      <img src="img/partes/hip.jpg" alt="Cadera">
+    </div>
+    <div class="opcion" data-respuesta="rodilla">
+      <img src="img/partes/knee.jpg" alt="Rodilla">
+    </div>
+  </div>
+  <p class="resultado"></p>
+</div>
+
+
+<div class="actividad">
+  <h2>6. ¿Cuál es la <span style="color:#2980b9;">"back"</span>?</h2>
+  <div class="opciones" data-correcta="espalda">
+    <div class="opcion" data-respuesta="espalda">
+      <img src="img/partes/back.jpg" alt="Espalda">
+    </div>
+    <div class="opcion" data-respuesta="pierna">
+      <img src="img/partes/leg.jpg" alt="Pierna">
+    </div>
+    <div class="opcion" data-respuesta="pie">
+      <img src="img/partes/feet.jpg" alt="Pie">
+    </div>
+  </div>
+  <p class="resultado"></p>
+</div>
+
+
+<div class="actividad">
+  <h2>7. ¿Dónde está el <span style="color:#d35400;">"ankle"</span>?</h2>
+  <div class="opciones" data-correcta="tobillo">
+    <div class="opcion" data-respuesta="tobillo">
+      <img src="img/partes/ankle.jpg" alt="Tobillo">
+    </div>
+    <div class="opcion" data-respuesta="dedos">
+      <img src="img/partes/finger.jpg" alt="Dedos">
+    </div>
+    <div class="opcion" data-respuesta="mano">
+      <img src="img/partes/hand.jpg" alt="Mano">
+    </div>
+  </div>
+  <p class="resultado"></p>
+</div>
+
+
+<div class="actividad">
+  <h2>8. ¿Cuál es la <span style="color:#34495e;">"knee"</span>?</h2>
+  <div class="opciones" data-correcta="rodilla">
+    <div class="opcion" data-respuesta="codo">
+      <img src="img/partes/elbow.jpg" alt="Codo">
+    </div>
+    <div class="opcion" data-respuesta="rodilla">
+      <img src="img/partes/knee.jpg" alt="Rodilla">
+    </div>
+    <div class="opcion" data-respuesta="cuello">
+      <img src="img/partes/neck.jpg" alt="Cuello">
+    </div>
+  </div>
+  <p class="resultado"></p>
+</div>
+
+
+<div class="actividad">
+  <h2>9. ¿Cuál es la <span style="color:#2ecc71;">"hip"</span>?</h2>
+  <div class="opciones" data-correcta="cadera">
+    <div class="opcion" data-respuesta="espalda">
+      <img src="img/partes/back.jpg" alt="Espalda">
+    </div>
+    <div class="opcion" data-respuesta="cadera">
+      <img src="img/partes/hip.jpg" alt="Cadera">
+    </div>
+    <div class="opcion" data-respuesta="rodilla">
+      <img src="img/partes/knee.jpg" alt="Rodilla">
+    </div>
+  </div>
+  <p class="resultado"></p>
+</div>
+
+<!-- 10. Foot -->
+<div class="actividad">
+  <h2>10. ¿Dónde está el <span style="color:#9b59b6;">"foot"</span>?</h2>
+  <div class="opciones" data-correcta="pie">
+    <div class="opcion" data-respuesta="cuello">
+      <img src="img/partes/neck.jpg" alt="Cuello">
+    </div>
+    <div class="opcion" data-respuesta="pie">
+      <img src="img/partes/feet.jpg" alt="Pie">
+    </div>
+    <div class="opcion" data-respuesta="mano">
+      <img src="img/partes/hand.jpg" alt="Mano">
+    </div>
+  </div>
+  <p class="resultado"></p>
+</div>
+
+
+
+  <button id="finalizar">¡Listo!</button>
+
+  <script>
+
+    document.querySelectorAll('.opciones').forEach(opcionesDiv => {
+      opcionesDiv.querySelectorAll('.opcion').forEach(opcion => {
+        opcion.addEventListener('click', () => {
+         
+          opcionesDiv.querySelectorAll('.opcion').forEach(op => op.classList.remove('seleccionada'));
+        
+          opcion.classList.add('seleccionada');
+        });
+      });
+    });
+
+
+    document.getElementById('finalizar').addEventListener('click', () => {
+      const actividades = document.querySelectorAll('.actividad');
+
+      actividades.forEach(actividad => {
+        const opciones = actividad.querySelector('.opciones');
+        const correcta = opciones.dataset.correcta;
+        const resultado = actividad.querySelector('.resultado');
+        const seleccionada = opciones.querySelector('.opcion.seleccionada');
+
+        if (!seleccionada) {
+          resultado.textContent = "No seleccionaste una respuesta.";
+          resultado.style.color = "#c0392b";
+          return;
+        }
+
+        const respuesta = seleccionada.dataset.respuesta;
+
+        if (respuesta === correcta) {
+          resultado.textContent = "✅ ¡Correcto!";
+          resultado.style.color = "#27ae60";
+        } else {
+          resultado.textContent = `❌ Incorrecto. La respuesta correcta era "${correcta}".`;
+          resultado.style.color = "#e74c3c";
+        }
+      });
+    });
+  </script>
+
+  <div class="volver">
+  <a href="niveles.html">⬅ Volver a niveles</a>
+</div>
+
+</body>
+</html>

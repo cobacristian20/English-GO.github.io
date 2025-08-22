@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Selecciona Nivel - Quiz Can y Can’t</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      font-family: 'Comic Sans MS', cursive;
+      color: #4b3f2f;
+      text-align: center;
+      padding: 40px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      font-size: 2.3rem;
+      color: #a77b5a;
+      margin-bottom: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .card {
+      background-color: #f4c98b;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s, background-color 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      background-color: #efb874;
+    }
+
+    .card a {
+      text-decoration: none;
+      color: #4b3621;
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: block;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      margin-top: 5px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      font-weight: bold;
+      border-radius: 15px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>🧠 Elige el nivel del quiz</h1>
+
+  <div class="grid">
+    <div class="card">
+      <a href="quiz-can-facil.html">🌱 Fácil</a>
+      <p>Preguntas simples con vocabulario básico.</p>
+    </div>
+    <div class="card">
+      <a href="quiz-can-normal.html">🎯 Normal</a>
+      <p>Oraciones completas con estructuras variadas.</p>
+    </div>
+    <div class="card">
+      <a href="quiz-can-dificil.html">🔥 Difícil</a>
+      <p>Oraciones complejas y comprensión contextual.</p>
+    </div>
+  </div>
+
+  <a class="volver" href="can-cant-actividades.html">⬅ Volver a actividades</a>
+
+</body>
+</html>

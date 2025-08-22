@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Difícil - Partes del Cuerpo</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #f3e9dc;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    .contenedor {
+      max-width: 600px;
+      background-color: #fff3e0;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #6d4c41;
+    }
+
+    #progress {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #8d6e63;
+    }
+
+    img {
+      max-width: 200px;
+      margin-bottom: 20px;
+    }
+
+    #sentence {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #5d4037;
+    }
+
+    #options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    #options button {
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      background-color: #e0d2c2;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    #options button:hover {
+      background-color: #d7c4b2;
+      transform: scale(1.05);
+    }
+
+    #options button:disabled {
+      cursor: default;
+      opacity: 0.8;
+    }
+
+    #nextBtn {
+      padding: 10px 20px;
+      background-color: #a1887f;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      display: none;
+    }
+
+    #nextBtn:hover {
+      background-color: #8d6e63;
+    }
+
+    #tip {
+      font-style: italic;
+      color: #6d4c41;
+      margin-bottom: 15px;
+      min-height: 30px;
+    }
+
+    a {
+      color: #6d4c41;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+ .volver {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.volver a {
+  display: inline-block;
+  background-color: #fff3e0;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #6d4c41;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.volver a:hover {
+  background-color: #fce0b2;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <div class="contenedor">
+    <h1>Completa la frase</h1>
+    <div id="progress">Pregunta 1 de 6</div>
+    <div id="quiz-container">
+      <img id="question-image" src="" alt="imagen pregunta" />
+      <p id="sentence"></p>
+      <div id="options"></div>
+      <p id="tip"></p>
+      <button id="nextBtn" onclick="nextQuestion()">Siguiente</button>
+    </div>
+  </div>
+
+<script>
+const questions = [
+  { image: "img/partes/head.jpg", sentence: "I think with my ______.", options: ["hand", "eye", "head", "leg"], answer: "head" },
+  { image: "img/partes/feet.jpg", sentence: "I walk with my ______.", options: ["hands", "feet", "ears", "eyes"], answer: "feet" },
+  { image: "img/partes/eye.jpg", sentence: "I see with my ______.", options: ["mouth", "ears", "eyes", "hands"], answer: "eyes" },
+  { image: "img/partes/mouth.jpg", sentence: "I eat with my ______.", options: ["nose", "mouth", "eye", "foot"], answer: "mouth" },
+  { image: "img/partes/ear.jpg", sentence: "I hear with my ______.", options: ["nose", "ears", "feet", "elbow"], answer: "ears" },
+  { image: "img/partes/nose.jpg", sentence: "I smell with my ______.", options: ["mouth", "hand", "nose", "eyes"], answer: "nose" },
+  { image: "img/partes/hand.jpg", sentence: "I write with my ______.", options: ["foot", "eye", "hand", "mouth"], answer: "hand" },
+  { image: "img/partes/arm.jpg", sentence: "I lift things with my ______.", options: ["ear", "leg", "arm", "nose"], answer: "arm" },
+  { image: "img/partes/knee.jpg", sentence: "I bend my leg at the ______.", options: ["knee", "foot", "elbow", "eye"], answer: "knee" },
+  { image: "img/partes/finger.jpg", sentence: "I point with my ______.", options: ["elbow", "toe", "finger", "eye"], answer: "finger" },
+  { image: "img/partes/elbow.jpg", sentence: "My arm bends at the ______.", options: ["elbow", "nose", "wrist", "shoulder"], answer: "elbow" },
+  { image: "img/partes/shoulder.jpg", sentence: "My arm is connected to my body at the ______.", options: ["ankle", "shoulder", "neck", "toe"], answer: "shoulder" },
+  { image: "img/partes/neck.jpg", sentence: "I turn my head with my ______.", options: ["nose", "neck", "hand", "leg"], answer: "neck" },
+  { image: "img/partes/tongue.jpg", sentence: "I taste with my ______.", options: ["teeth", "tongue", "mouth", "eye"], answer: "tongue" },
+  { image: "img/partes/teeth.jpg", sentence: "I chew food with my ______.", options: ["tongue", "nose", "teeth", "eye"], answer: "teeth" },
+  { image: "img/partes/back.jpg", sentence: "I carry my backpack on my ______.", options: ["back", "foot", "ear", "knee"], answer: "back" },
+  { image: "img/partes/stomach.jpg", sentence: "Food goes to my ______ after I eat.", options: ["head", "hand", "stomach", "toe"], answer: "stomach" },
+  { image: "img/partes/hair.jpg", sentence: "I brush my ______ every morning.", options: ["feet", "hair", "ear", "tongue"], answer: "hair" },
+  { image: "img/partes/thumb.jpeg", sentence: "The short thick finger is called the ______.", options: ["thumb", "toe", "nose", "knee"], answer: "thumb" },
+  { image: "img/partes/ankle.jpg", sentence: "My foot connects to my leg at the ______.", options: ["ankle", "elbow", "shoulder", "eye"], answer: "ankle" }
+];
+
+const tips = [
+  "¡Tu cabeza protege tu cerebro, que es como una computadora!",
+  "Los pies tienen 26 huesos cada uno. ¡Son importantes!",
+  "Los ojos pueden distinguir millones de colores.",
+  "La boca tiene más de 10 músculos para ayudarte a comer y hablar.",
+  "Las orejas también ayudan a mantener el equilibrio.",
+  "La nariz puede recordar más de 50,000 olores diferentes.",
+  "Las manos son esenciales para escribir, dibujar y crear.",
+  "Los brazos ayudan a cargar, lanzar y abrazar.",
+  "La rodilla conecta el muslo con la pierna y te ayuda a moverte.",
+  "Tus dedos te permiten tocar, sentir y señalar.",
+  "El codo te permite doblar el brazo para comer o rascarte.",
+  "El hombro ayuda a mover el brazo en muchas direcciones.",
+  "El cuello sostiene tu cabeza y permite girarla.",
+  "La lengua te permite saborear la comida deliciosa.",
+  "Los dientes trituran la comida para que puedas digerirla mejor.",
+  "Tu espalda te ayuda a mantenerte erguido y fuerte.",
+  "El estómago descompone los alimentos que comes.",
+  "El cabello protege tu cuero cabelludo del sol y el frío.",
+  "El pulgar ayuda a agarrar cosas con más fuerza.",
+  "El tobillo es esencial para caminar, correr y saltar."
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion() {
+  const question = questions[currentQuestion];
+  document.getElementById("question-image").src = question.image;
+  document.getElementById("sentence").textContent = question.sentence;
+  document.getElementById("progress").textContent = `Pregunta ${currentQuestion + 1} de ${questions.length}`;
+  document.getElementById("tip").textContent = "";
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  question.options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.onclick = () => checkAnswer(btn, question.answer);
+    optionsDiv.appendChild(btn);
+  });
+
+  document.getElementById("nextBtn").style.display = "none";
+}
+
+function checkAnswer(button, correct) {
+  const allButtons = document.querySelectorAll("#options button");
+
+  allButtons.forEach(btn => {
+    btn.disabled = true;
+    btn.style.backgroundColor = (btn.textContent === correct) ? "#bab78c" : "#c96a25";
+  });
+
+  if (button.textContent === correct) {
+    button.style.border = "3px solid #388e3c";
+    score++;
+  }
+
+  document.getElementById("tip").textContent = tips[currentQuestion];
+  document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+function nextQuestion() {
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    loadQuestion();
+  } else {
+    let mensaje = "¡Muy bien! Has completado el nivel difícil. 🎉";
+    let imagen = "img/felicitaciones.png";
+
+    const porcentaje = (score / questions.length) * 100;
+
+    if (porcentaje < 50) {
+      mensaje = "¡Sigue practicando! 💪";
+      imagen = "img/intenta-nuevamente.png";
+    } else if (porcentaje < 80) {
+      mensaje = "¡Buen trabajo! 😄";
+      imagen = "img/buen-trabajo.png";
+    }
+
+    document.getElementById("quiz-container").innerHTML = `
+      <h2>${mensaje}</h2>
+      <p>Tu puntaje fue: <strong>${score} de ${questions.length}</strong></p>
+      <img src="${imagen}" alt="resultado" style="max-width: 250px;">
+      <br><br>
+
+    `;
+    document.getElementById("progress").textContent = "";
+  }
+}
+
+window.onload = loadQuestion;
+</script>
+
+<div class="volver">
+  <a href="niveles.html">⬅ Volver a niveles</a>
+</div>
+</body>
+</html>

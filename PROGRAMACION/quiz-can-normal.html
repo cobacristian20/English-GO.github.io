@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Normal</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #f9f5ec;
+      color: #4b3f2f;
+      text-align: center;
+      padding: 30px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+    }
+
+    .contenedor {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin-top: 30px;
+      position: relative;
+    }
+
+    .columna {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .item {
+      padding: 10px 15px;
+      background-color: #f4c98b;
+      border: 2px solid #a77b5a;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .item.seleccionado {
+      background-color: #efb874;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .mensaje {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .botones {
+      margin-top: 30px;
+    }
+
+    .botones button {
+      background-color: #a77b5a;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 0 10px;
+    }
+
+    .botones button:hover {
+      background-color: #926449;
+    }
+
+    .volver {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 24px;
+  background-color: #d7c0ae;
+  color: #4b3f2f;
+  font-weight: bold;
+  border-radius: 15px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.volver:hover {
+  background-color: #c3a995;
+}
+
+  </style>
+</head>
+<body>
+
+<header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+
+<h1>🔗 Une las frases correctamente</h1>
+
+<div class="contenedor">
+  <div class="columna" id="izquierda"></div>
+  <canvas id="canvas" width="1000" height="600"></canvas>
+  <div class="columna" id="derecha"></div>
+</div>
+
+<div class="botones">
+  <button onclick="verificar()">✅ Verificar</button>
+  <button onclick="reiniciar()">🔁 Reiniciar</button>
+</div>
+
+<div class="mensaje" id="mensaje"></div>
+
+<script>
+  const izquierda = [
+    "I can swim",
+    "She can sing",
+    "We can run",
+    "He can jump",
+    "They can play soccer",
+    "You can dance",
+    "It can fly",
+    "I can read",
+    "We can draw",
+    "He can ride a bike"
+  ];
+
+  const derecha = [
+    "Él puede montar bicicleta",
+    "Nosotros podemos correr",
+    "Tú puedes bailar",
+    "Ella puede cantar",
+    "Ellos pueden jugar fútbol",
+    "Nosotros podemos dibujar",
+    "Yo puedo nadar",
+    "Yo puedo leer",
+    "Él puede saltar",
+    "Eso puede volar"
+  ];
+
+  const emparejamientosCorrectos = {
+    "I can swim": "Yo puedo nadar",
+    "She can sing": "Ella puede cantar",
+    "We can run": "Nosotros podemos correr",
+    "He can jump": "Él puede saltar",
+    "They can play soccer": "Ellos pueden jugar fútbol",
+    "You can dance": "Tú puedes bailar",
+    "It can fly": "Eso puede volar",
+    "I can read": "Yo puedo leer",
+    "We can draw": "Nosotros podemos dibujar",
+    "He can ride a bike": "Él puede montar bicicleta"
+  };
+
+  const uniones = [];
+
+  const columnaIzq = document.getElementById('izquierda');
+  const columnaDer = document.getElementById('derecha');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const mensaje = document.getElementById('mensaje');
+
+  let seleccion = null;
+
+  function crearItems() {
+    columnaIzq.innerHTML = "";
+    columnaDer.innerHTML = "";
+
+    izquierda.forEach(texto => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.textContent = texto;
+      div.dataset.texto = texto;
+      columnaIzq.appendChild(div);
+    });
+
+    const derechaMezclada = [...derecha].sort(() => Math.random() - 0.5);
+
+    derechaMezclada.forEach(texto => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.textContent = texto;
+      div.dataset.texto = texto;
+      columnaDer.appendChild(div);
+    });
+
+    document.querySelectorAll('.item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (item.classList.contains('unido')) return;
+
+if (!seleccion) {
+  if (item.parentElement.id === 'izquierda') {
+    seleccion = item;
+    item.classList.add('seleccionado');
+  }
+} else {
+  if (
+    item.parentElement.id === 'derecha' &&
+    seleccion.parentElement.id === 'izquierda'
+  ) {
+    uniones.push({
+      izquierda: seleccion,
+      derecha: item
+    });
+
+    dibujarLinea(seleccion, item);
+
+    seleccion.classList.remove('seleccionado');
+    seleccion.classList.add('unido');
+    item.classList.add('unido');
+
+    seleccion = null;
+  }
+}
+
+      });
+    });
+  }
+
+  function dibujarLinea(el1, el2) {
+    const rect1 = el1.getBoundingClientRect();
+    const rect2 = el2.getBoundingClientRect();
+
+    const x1 = rect1.right - canvas.getBoundingClientRect().left;
+    const y1 = rect1.top + rect1.height / 2 - canvas.getBoundingClientRect().top;
+    const x2 = rect2.left - canvas.getBoundingClientRect().left;
+    const y2 = rect2.top + rect2.height / 2 - canvas.getBoundingClientRect().top;
+
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = '#a77b5a';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  function verificar() {
+    let correctas = 0;
+
+    uniones.forEach(union => {
+      const txtIzq = union.izquierda.dataset.texto;
+      const txtDer = union.derecha.dataset.texto;
+
+      if (emparejamientosCorrectos[txtIzq] === txtDer) {
+        correctas++;
+      }
+    });
+
+    if (correctas === Object.keys(emparejamientosCorrectos).length) {
+      mensaje.textContent = "✅ ¡Excelente! Todas las uniones son correctas.";
+      mensaje.style.color = "#27ae60";
+    } else {
+      mensaje.textContent = `❌ Tienes ${correctas} correctas de ${Object.keys(emparejamientosCorrectos).length}.`;
+      mensaje.style.color = "#e74c3c";
+    }
+  }
+
+  function reiniciar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    mensaje.textContent = "";
+    seleccion = null;
+    uniones.length = 0;
+    crearItems();
+  }
+
+  crearItems();
+</script>
+
+
+
+<a href="quizzes-can.html" class="volver">⬅ Volver a quizzes</a>
+
+</body>
+</html>

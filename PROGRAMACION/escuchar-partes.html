@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Escucha y Adivina - ENGLISH-GO</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      padding: 30px;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      font-size: 2rem;
+      color: #a77b5a;
+      margin-bottom: 20px;
+    }
+
+    .imagen-opciones {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      max-width: 600px;
+      margin: 30px auto;
+    }
+
+    .imagen-opciones img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border: 3px solid transparent;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .imagen-opciones img:hover {
+      transform: scale(1.05);
+    }
+
+    .correcta {
+      border-color: #4caf50;
+    }
+
+    .incorrecta {
+      border-color: #f44336;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-weight: bold;
+      background-color: #a77b5a;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #926449;
+    }
+
+    #feedback {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    #progreso {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+       .volver {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.volver a {
+  display: inline-block;
+  background-color: #fff3e0;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1em;
+  color: #6d4c41;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.volver a:hover {
+  background-color: #fce0b2;
+}
+  </style>
+</head>
+<body>
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+
+  <h1>🎧 Escucha y elige la imagen correcta</h1>
+  <div id="progreso">Pregunta 1 de 5</div>
+  <button onclick="reproducirAudio()">🔊 Escuchar</button>
+  <div class="imagen-opciones" id="opciones"></div>
+  <div id="feedback"></div>
+  <button id="siguiente" style="display:none;" onclick="siguientePregunta()">Siguiente</button>
+
+  <script>
+    const preguntas = [
+      {
+        palabra: "elbow",
+        imagenes: ["img/partes/elbow.jpg", "img/partes/eye.jpg", "img/partes/feet.jpg"],
+        correcta: "img/partes/elbow.jpg"
+      },
+      {
+        palabra: "eye",
+        imagenes: ["img/partes/hand.jpg", "img/partes/eye.jpg", "img/partes/mouth.jpg"],
+        correcta: "img/partes/eye.jpg"
+      },
+      {
+        palabra: "nose",
+        imagenes: ["img/partes/ear.jpg", "img/partes/nose.jpg", "img/partes/hair.jpg"],
+        correcta: "img/partes/nose.jpg"
+      },
+      {
+        palabra: "foot",
+        imagenes: ["img/partes/feet.jpg", "img/partes/head.jpg", "img/partes/knee.jpg"],
+        correcta: "img/partes/feet.jpg"
+      },
+      {
+        palabra: "mouth",
+        imagenes: ["img/partes/mouth.jpg", "img/partes/eye.jpg", "img/partes/teeth.jpg"],
+        correcta: "img/partes/mouth.jpg"
+      },
+
+      {
+        palabra: "hand",
+        imagenes: ["img/partes/hand.jpg", "img/partes/ear.jpg", "img/partes/eye.jpg"],
+        correcta: "img/partes/hand.jpg"
+      },
+      {
+        palabra: "ear",
+        imagenes: ["img/partes/nose.jpg", "img/partes/ear.jpg", "img/partes/teeth.jpg"],
+        correcta: "img/partes/ear.jpg"
+      },
+      {
+        palabra: "head",
+        imagenes: ["img/partes/head.jpg", "img/partes/hair.jpg", "img/partes/feet.jpg"],
+        correcta: "img/partes/head.jpg"
+      },
+      {
+        palabra: "hair",
+        imagenes: ["img/partes/hair.jpg", "img/partes/eye.jpg", "img/partes/lips.jpg"],
+        correcta: "img/partes/hair.jpg"
+      },
+      {
+        palabra: "teeth",
+        imagenes: ["img/partes/teeth.jpg", "img/partes/mouth.jpg", "img/partes/eye.jpg"],
+        correcta: "img/partes/teeth.jpg"
+      },
+      {
+        palabra: "tongue",
+        imagenes: ["img/partes/tongue.jpg", "img/partes/teeth.jpg", "img/partes/eye.jpg"],
+        correcta: "img/partes/tongue.jpg"
+      },
+      {
+        palabra: "knee",
+        imagenes: ["img/partes/knee.jpg", "img/partes/arm.jpg", "img/partes/nose.jpg"],
+        correcta: "img/partes/knee.jpg"
+      },
+      {
+        palabra: "shoulder",
+        imagenes: ["img/partes/shoulder.jpg", "img/partes/head.jpg", "img/partes/elbow.jpg"],
+        correcta: "img/partes/shoulder.jpg"
+      },
+      {
+        palabra: "torso",
+        imagenes: ["img/partes/torso.jpg", "img/partes/knee.jpg", "img/partes/arm.jpg"],
+        correcta: "img/partes/torso.jpg"
+      },
+      {
+        palabra: "neck",
+        imagenes: ["img/partes/neck.jpg", "img/partes/face.jpg", "img/partes/lips.jpg"],
+        correcta: "img/partes/neck.jpg"
+      },
+      {
+        palabra: "face",
+        imagenes: ["img/partes/face.jpg", "img/partes/nose.jpg", "img/partes/ear.jpg"],
+        correcta: "img/partes/face.jpg"
+      }, 
+      {
+        palabra: "arm",
+        imagenes: ["img/partes/arm.jpg", "img/partes/leg.jpg", "img/partes/hand.jpg"],
+        correcta: "img/partes/arm.jpg"
+      },  
+      {
+        palabra: "leg",
+        imagenes: ["img/partes/leg.jpg", "img/partes/knee.jpg", "img/partes/elbow.jpg"],
+        correcta: "img/partes/leg.jpg"
+      },
+      {
+        palabra: "lips",
+        imagenes: ["img/partes/lips.jpg", "img/partes/tongue.jpg", "img/partes/eye.jpg"],
+        correcta: "img/partes/lips.jpg"
+      },
+      {
+        palabra: "eyebrow",
+        imagenes: ["img/partes/eyebrow.jpg", "img/partes/eye.jpg", "img/partes/ear.jpg"],
+        correcta: "img/partes/eyebrow.jpg"
+      }
+
+    ];
+
+    let indice = 0;
+
+    function reproducirAudio() {
+      const mensaje = new SpeechSynthesisUtterance(preguntas[indice].palabra);
+      mensaje.lang = 'en-US';
+      speechSynthesis.speak(mensaje);
+    }
+
+    function cargarPregunta() {
+      const contenedor = document.getElementById("opciones");
+      const feedback = document.getElementById("feedback");
+      const progreso = document.getElementById("progreso");
+
+      progreso.textContent = `Pregunta ${indice + 1} de ${preguntas.length}`;
+      contenedor.innerHTML = "";
+      feedback.textContent = "";
+      document.getElementById("siguiente").style.display = "none";
+
+      preguntas[indice].imagenes.forEach(imagen => {
+        const img = document.createElement("img");
+        img.src = imagen;
+        img.onclick = () => verificarRespuesta(img, imagen);
+        contenedor.appendChild(img);
+      });
+    }
+
+    function verificarRespuesta(img, seleccionada) {
+      const imagenes = document.querySelectorAll(".imagen-opciones img");
+      imagenes.forEach(i => i.onclick = null);
+
+      if (seleccionada === preguntas[indice].correcta) {
+        img.classList.add("correcta");
+        document.getElementById("feedback").textContent = "✅ ¡Muy bien!";
+      } else {
+        img.classList.add("incorrecta");
+        document.getElementById("feedback").textContent = "❌ Intenta con otra.";
+        imagenes.forEach(i => {
+          if (i.src.includes(preguntas[indice].correcta)) {
+            i.classList.add("correcta");
+          }
+        });
+      }
+
+      document.getElementById("siguiente").style.display = "inline-block";
+    }
+
+    function siguientePregunta() {
+      indice++;
+      if (indice < preguntas.length) {
+        cargarPregunta();
+      } else {
+        document.body.innerHTML = `
+          <h1>🎉 ¡Excelente trabajo!</h1>
+          <p>Has completado el juego.</p>
+          <div class="volver">
+          <a href="partes-cuerpo.html">⬅ Volver a niveles</a>
+          </div>
+        `;
+      }
+    }
+
+
+    window.onload = cargarPregunta;
+  </script>
+
+      <div class="volver">
+  <a href="partes-cuerpo.html">⬅ Volver a niveles</a>
+</div>
+</body>
+</html>

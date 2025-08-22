@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ordena la frase - Profesiones</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #fff6e0, #f3e2c7);
+      text-align: center;
+      padding: 30px;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}   h1 {
+      color: #a77b5a;
+    }
+
+    .zona {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      min-height: 60px;
+      padding: 10px;
+      margin: 20px auto;
+      border: 2px dashed #a77b5a;
+      background-color: #fff3e0;
+      border-radius: 12px;
+      max-width: 600px;
+    }
+
+    .palabra {
+      background-color: #f4c98b;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: grab;
+      font-weight: bold;
+      border: 2px solid #a77b5a;
+      user-select: none;
+    }
+
+    button {
+      margin: 15px 5px;
+      padding: 10px 20px;
+      background-color: #a77b5a;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .mensaje {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>🧩 Ordena la frase con profesiones</h1>
+
+  <div class="zona" id="zona-palabras" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+  <div class="zona" id="zona-frase" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+
+  <button onclick="verificar()" id="btnVerificar">Verificar</button>
+  <button onclick="reiniciar()" id="btnReiniciar">🔁 Reiniciar</button>
+  <div class="mensaje" id="mensaje"></div>
+
+  <a class="volver" href="caracteristicas-personas.html">⬅ Volver</a>
+
+  <script>
+    const frasesTotales = [
+      { completa: ["She", "is", "a", "doctor"], correcta: "She is a doctor" },
+      { completa: ["He", "is", "a", "teacher"], correcta: "He is a teacher" },
+      { completa: ["They", "are", "firefighters"], correcta: "They are firefighters" },
+      { completa: ["I", "am", "a", "student"], correcta: "I am a student" },
+      { completa: ["We", "are", "nurses"], correcta: "We are nurses" },
+      { completa: ["He", "is", "a", "police", "officer"], correcta: "He is a police officer" },
+      { completa: ["She", "is", "a", "vet"], correcta: "She is a vet" },
+      { completa: ["They", "are", "musicians"], correcta: "They are musicians" },
+      { completa: ["I", "am", "an", "artist"], correcta: "I am an artist" },
+      { completa: ["We", "are", "chefs"], correcta: "We are chefs" }
+    ];
+
+    let frasesPendientes = [...frasesTotales];
+    let fraseActual = {};
+    const zonaPalabras = document.getElementById("zona-palabras");
+    const zonaFrase = document.getElementById("zona-frase");
+    const mensaje = document.getElementById("mensaje");
+    const btnVerificar = document.getElementById("btnVerificar");
+    const btnReiniciar = document.getElementById("btnReiniciar");
+
+    function shuffle(array) {
+      return array.slice().sort(() => Math.random() - 0.5);
+    }
+
+    function crearPalabra(texto) {
+      const span = document.createElement("span");
+      span.className = "palabra";
+      span.draggable = true;
+      span.textContent = texto;
+
+      span.ondragstart = (e) => {
+        e.dataTransfer.setData("text", texto);
+        e.dataTransfer.setData("origen", span.parentElement.id);
+        e.dataTransfer.setData("indice", [...span.parentElement.children].indexOf(span));
+      };
+
+      return span;
+    }
+
+    function cargarFrase() {
+      mensaje.textContent = "";
+      zonaPalabras.innerHTML = "";
+      zonaFrase.innerHTML = "";
+
+      if (frasesPendientes.length === 0) {
+        mensaje.textContent = "🎉 ¡Has finalizado todas las frases!";
+        mensaje.style.color = "green";
+        btnVerificar.disabled = true;
+        zonaPalabras.style.display = "none";
+        zonaFrase.style.display = "none";
+        return;
+      }
+
+      const indice = Math.floor(Math.random() * frasesPendientes.length);
+      fraseActual = frasesPendientes.splice(indice, 1)[0];
+      const desordenadas = shuffle(fraseActual.completa);
+
+      desordenadas.forEach(p => zonaPalabras.appendChild(crearPalabra(p)));
+    }
+
+    function permitirSoltar(e) {
+      e.preventDefault();
+    }
+
+    function soltar(e) {
+      e.preventDefault();
+      const texto = e.dataTransfer.getData("text");
+      const origenId = e.dataTransfer.getData("origen");
+      const indice = parseInt(e.dataTransfer.getData("indice"));
+      const origenZona = document.getElementById(origenId);
+      const spanOriginal = origenZona.children[indice];
+
+      const zonaDestino = e.currentTarget;
+      if (zonaDestino && zonaDestino.classList.contains("zona")) {
+        zonaDestino.appendChild(crearPalabra(texto));
+        if (spanOriginal && origenZona.contains(spanOriginal)) {
+          origenZona.removeChild(spanOriginal);
+        }
+      }
+    }
+
+    function verificar() {
+      const respuesta = [...zonaFrase.children].map(el => el.textContent).join(" ");
+      if (respuesta === fraseActual.correcta) {
+        mensaje.textContent = "✅ ¡Correcto!";
+        mensaje.style.color = "green";
+        setTimeout(reiniciar, 1000);
+      } else {
+        mensaje.textContent = "❌ Intenta de nuevo";
+        mensaje.style.color = "red";
+      }
+    }
+
+    function reiniciar() {
+      cargarFrase();
+    }
+
+    window.onload = cargarFrase;
+  </script>
+</body>
+</html>

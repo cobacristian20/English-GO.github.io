@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>¿Quién soy? - Verbo To Be</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #f0e4d7, #fdebd0);
+      text-align: center;
+      padding: 30px;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+
+        .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+
+
+    h1 {
+      color: #a77b5a;
+    }
+
+    .contenedor {
+      background-color: #fff8ed;
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .pistas {
+      font-size: 1.2rem;
+      margin: 20px 0;
+    }
+
+    .opciones {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .opciones button {
+      background-color: #f4c98b;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .opciones button:hover {
+      background-color: #efb874;
+    }
+
+    .mensaje {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    #siguiente {
+      margin-top: 25px;
+      padding: 10px 20px;
+      background-color: #a77b5a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+
+  <h1>¿Quién soy? 🤔</h1>
+  <div class="contenedor">
+    <p class="pistas" id="pistas">Cargando...</p>
+    <div class="opciones">
+      <button onclick="verificar('He')">He is</button>
+      <button onclick="verificar('She')">She is</button>
+      <button onclick="verificar('It')">It is</button>
+    </div>
+    <div class="mensaje" id="mensaje"></div>
+    <button id="siguiente" onclick="siguiente()">Siguiente ▶</button>
+  </div>
+
+  <a class="volver" href="verbo-to-be.html">⬅ Volver</a>
+
+  <script>
+    const personajes = [
+      { pistas: ["I am tall.", "I play soccer.", "I am a boy."], respuesta: "He" },
+      { pistas: ["I have long hair.", "I wear a dress.", "I am a girl."], respuesta: "She" },
+      { pistas: ["I have four legs.", "I bark.", "I am a pet."], respuesta: "It" },
+      { pistas: ["I am your teacher.", "I have short hair.", "I am a woman."], respuesta: "She" },
+      { pistas: ["I am green.", "I can jump.", "I am a frog."], respuesta: "It" }
+    ];
+
+    let index = 0;
+
+    function cargar() {
+      const personaje = personajes[index];
+      document.getElementById("pistas").textContent = personaje.pistas.join(" ");
+      document.getElementById("mensaje").textContent = "";
+      document.getElementById("siguiente").style.display = "none";
+    }
+
+    function verificar(respuesta) {
+      const correcto = personajes[index].respuesta;
+      const mensaje = document.getElementById("mensaje");
+
+      if (respuesta === correcto) {
+        mensaje.textContent = "✅ ¡Correcto!";
+        mensaje.style.color = "green";
+        document.getElementById("siguiente").style.display = "inline-block";
+      } else {
+        mensaje.textContent = "❌ Intenta otra vez.";
+        mensaje.style.color = "red";
+      }
+    }
+
+    function siguiente() {
+      index++;
+      if (index < personajes.length) {
+        cargar();
+      } else {
+        document.querySelector('.contenedor').innerHTML = `
+          <h2>🎉 ¡Has terminado el juego!</h2>
+          <p>¡Muy bien hecho!</p>
+        `;
+      }
+    }
+
+    window.onload = cargar;
+  </script>
+
+</body>
+</html>

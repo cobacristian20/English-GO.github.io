@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz - Pasado Simple</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #ffe0b2, #f8d2ae);
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      padding: 30px;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+    }
+
+    .contenedor {
+      max-width: 600px;
+      margin: auto;
+      background: #fff3e0;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #pregunta {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+
+    .opciones button {
+      display: block;
+      width: 100%;
+      margin: 10px auto;
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #f4c98b;
+      color: #4b3621;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .opciones button:hover {
+      background-color: #efb874;
+    }
+
+    #resultado {
+      font-weight: bold;
+      margin: 15px 0;
+      min-height: 20px;
+    }
+
+    #siguiente {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #a77b5a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      display: none;
+      cursor: pointer;
+    }
+
+    #siguiente:hover {
+      background-color: #926449;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      font-weight: bold;
+      border-radius: 15px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <div class="contenedor">
+    <h1>Quiz - Pasado Simple</h1>
+    <div id="pregunta"></div>
+    <div class="opciones" id="opciones"></div>
+    <div id="resultado"></div>
+    <button id="siguiente" onclick="siguientePregunta()">Siguiente</button>
+  </div>
+
+  <a class="volver" href="pasado-simple.html">⬅ Volver a actividades</a>
+
+  <script>
+    const preguntas = [
+      {
+        texto: "Did she go to the market?",
+        opciones: ["Yes, she did", "Yes, she do", "No, she don't"],
+        correcta: "Yes, she did"
+      },
+      {
+        texto: "Did they play soccer?",
+        opciones: ["No, they doesn't", "Yes, they did", "Yes, they does"],
+        correcta: "Yes, they did"
+      },
+      {
+        texto: "Did he eat pizza yesterday?",
+        opciones: ["Yes, he ate", "Yes, he did", "No, he doesn't"],
+        correcta: "Yes, he did"
+      },
+      {
+        texto: "Did you watch a movie?",
+        opciones: ["Yes, I do", "Yes, I did", "No, I doesn’t"],
+        correcta: "Yes, I did"
+      },
+      {
+        texto: "Did it rain last night?",
+        opciones: ["Yes, it did", "Yes, it does", "No, it don’t"],
+        correcta: "Yes, it did"
+      },
+      {
+        texto: "Did we visit the zoo?",
+        opciones: ["No, we did not", "No, we doesn’t", "Yes, we do"],
+        correcta: "No, we did not"
+      },
+      {
+        texto: "Did he play the guitar?",
+        opciones: ["Yes, he did", "Yes, he do", "No, he doesn't"],
+        correcta: "Yes, he did"
+      },
+      {
+        texto: "Did she sing yesterday?",
+        opciones: ["Yes, she did", "No, she do", "Yes, she does"],
+        correcta: "Yes, she did"
+      },
+      {
+        texto: "Did the teacher arrive early?",
+        opciones: ["Yes, he did", "Yes, he does", "No, he don’t"],
+        correcta: "Yes, he did"
+      },
+      {
+        texto: "Did you like the show?",
+        opciones: ["Yes, I did", "Yes, I do", "No, I doesn't"],
+        correcta: "Yes, I did"
+      }
+    ];
+
+    let indice = 0;
+    let puntaje = 0;
+
+    function mostrarPregunta() {
+      const pregunta = preguntas[indice];
+      document.getElementById("pregunta").textContent = pregunta.texto;
+
+      const opcionesDiv = document.getElementById("opciones");
+      opcionesDiv.innerHTML = "";
+
+      pregunta.opciones.forEach(op => {
+        const btn = document.createElement("button");
+        btn.textContent = op;
+        btn.onclick = () => verificarRespuesta(btn, pregunta.correcta);
+        opcionesDiv.appendChild(btn);
+      });
+
+      document.getElementById("resultado").textContent = "";
+      document.getElementById("siguiente").style.display = "none";
+    }
+
+    function verificarRespuesta(boton, correcta) {
+      const resultado = document.getElementById("resultado");
+
+      if (boton.textContent === correcta) {
+        resultado.textContent = "✅ ¡Correcto!";
+        resultado.style.color = "green";
+        puntaje++;
+      } else {
+        resultado.textContent = `❌ Incorrecto. Respuesta correcta: "${correcta}"`;
+        resultado.style.color = "red";
+      }
+
+      document.querySelectorAll(".opciones button").forEach(btn => btn.disabled = true);
+      document.getElementById("siguiente").style.display = "inline-block";
+    }
+
+    function siguientePregunta() {
+      indice++;
+      if (indice < preguntas.length) {
+        mostrarPregunta();
+      } else {
+        mostrarResultadoFinal();
+      }
+    }
+
+    function mostrarResultadoFinal() {
+      document.querySelector(".contenedor").innerHTML = `
+        <h1>🎉 ¡Quiz finalizado!</h1>
+        <p>Tu puntaje: <strong>${puntaje} de ${preguntas.length}</strong></p>
+        <a class="volver" href="pasado-simple.html">⬅ Volver a actividades</a>
+      `;
+    }
+
+    window.onload = mostrarPregunta;
+  </script>
+</body>
+</html>

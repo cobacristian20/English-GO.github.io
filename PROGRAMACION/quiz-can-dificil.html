@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Díficil</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #fff6e0, #f3e2c7);
+      font-family: 'Comic Sans MS', cursive;
+      padding: 30px;
+      color: #4b3f2f;
+      text-align: center;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+      margin-bottom: 20px;
+    }
+
+    .pregunta {
+      background: #fff3e0;
+      border: 2px solid #a77b5a;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+      text-align: left;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    label {
+      display: block;
+      margin-top: 8px;
+    }
+
+    input[type="radio"] {
+      margin-right: 8px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-weight: bold;
+      background-color: #a77b5a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #926449;
+    }
+
+    .resultado {
+      font-size: 1.3rem;
+      margin-top: 25px;
+      font-weight: bold;
+    }
+
+    .correcto {
+      color: green;
+    }
+
+    .incorrecto {
+      color: red;
+    }
+
+    .volver {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 10px 20px;
+  background-color: #d7c0ae;
+  color: #4b3f2f;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: background-color 0.3s;
+}
+.volver:hover {
+  background-color: #c3a995;
+}
+
+  </style>
+</head>
+<body>
+
+<header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>Corrige las frases con doble negación</h1>
+
+  <form id="quizForm"></form>
+  <button type="button" onclick="verificar()">Verificar</button>
+  <div class="resultado" id="resultado"></div>
+
+  <script>
+    const preguntas = [
+      {
+        texto: "1. He no can swim.",
+        correcta: "He can't swim.",
+        opciones: ["He can’t no swim.", "He can't swim.", "He no can swim."]
+      },
+      {
+        texto: "2. She no can't dance.",
+        correcta: "She can't dance.",
+        opciones: ["She can't dance.", "She no can't dance.", "She can't no dance."]
+      },
+      {
+        texto: "3. I don’t can't sing.",
+        correcta: "I can't sing.",
+        opciones: ["I can't sing.", "I don’t can't sing.", "I not can sing."]
+      },
+      {
+        texto: "4. They no can’t play.",
+        correcta: "They can't play.",
+        opciones: ["They can't play.", "They no can’t play.", "They can’t no play."]
+      },
+      {
+        texto: "5. You can't no run fast.",
+        correcta: "You can't run fast.",
+        opciones: ["You can't no run fast.", "You can't run fast.", "You no can't run fast."]
+      },
+      {
+        texto: "6. He not can't eat.",
+        correcta: "He can't eat.",
+        opciones: ["He can't eat.", "He not can't eat.", "He can't no eat."]
+      },
+      {
+        texto: "7. We don’t can't play soccer.",
+        correcta: "We can't play soccer.",
+        opciones: ["We can't play soccer.", "We don’t can't play soccer.", "We not can play soccer."]
+      },
+      {
+        texto: "8. She not can't write.",
+        correcta: "She can't write.",
+        opciones: ["She not can't write.", "She can't write.", "She can't not write."]
+      },
+      {
+        texto: "9. I can't not sleep.",
+        correcta: "I can't sleep.",
+        opciones: ["I can't not sleep.", "I can't sleep.", "I no can't sleep."]
+      },
+      {
+        texto: "10. They no can’t draw.",
+        correcta: "They can't draw.",
+        opciones: ["They can’t draw.", "They no can’t draw.", "They can’t not draw."]
+      }
+    ];
+
+    function barajar(array) {
+      return array.map(v => ({v, sort: Math.random()}))
+                  .sort((a, b) => a.sort - b.sort)
+                  .map(({v}) => v);
+    }
+
+    function cargarPreguntas() {
+      const form = document.getElementById("quizForm");
+      preguntas.forEach((pregunta, i) => {
+        const div = document.createElement("div");
+        div.className = "pregunta";
+        div.innerHTML = `<strong>${pregunta.texto}</strong>`;
+
+        const opciones = barajar(pregunta.opciones.slice());
+        opciones.forEach((op, j) => {
+          const id = `p${i}_o${j}`;
+          div.innerHTML += `
+            <label><input type="radio" name="p${i}" value="${op}" id="${id}"> ${op}</label>
+          `;
+        });
+
+        form.appendChild(div);
+      });
+    }
+
+    function verificar() {
+      let correctas = 0;
+      preguntas.forEach((p, i) => {
+        const seleccion = document.querySelector(`input[name="p${i}"]:checked`);
+        if (seleccion && seleccion.value === p.correcta) {
+          correctas++;
+        }
+      });
+
+      const resultado = document.getElementById("resultado");
+      if (correctas === preguntas.length) {
+        resultado.textContent = "🎉 ¡Perfecto! Todas están correctas.";
+        resultado.className = "resultado correcto";
+      } else {
+        resultado.textContent = `Tienes ${correctas} de ${preguntas.length} correctas.`;
+        resultado.className = "resultado incorrecto";
+      }
+    }
+
+    window.onload = cargarPreguntas;
+  </script>
+
+  <a href="quizzes-can.html" class="volver">⬅ Volver a quizzes</a>
+
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Partes del cuerpo - ENGLISH-GO</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #f9f5ec;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+
+        .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      margin-bottom: 10px;
+      font-size: 2rem;
+      color: #a77b5a;
+    }
+
+    p {
+      font-size: 1.5rem;
+    }
+
+    .cuerpo-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+      padding: 10px;
+    }
+
+    .parte {
+      background-color: #d7c0ae;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .parte:hover {
+      transform: scale(1.05);
+      background-color: #c3a995;
+    }
+
+    .emoji {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .nombre {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #a77b5a;
+    }
+
+    .audio-btn {
+      margin-top: 10px;
+      background-color: #a77b5a;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .volver, .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      border-radius: 15px;
+      text-decoration: none;
+      color: #4b3f2f;
+      font-weight: bold;
+    }
+
+    .imagen-parte {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>Partes del cuerpo 🧍</h1>
+  <p>Haz clic en cada palabra para escucharla en inglés:</p>
+
+<div class="cuerpo-container">
+  <div class="parte"><img src="img/partes/head.jpg" alt="head" class="imagen-parte">
+    <div class="nombre">Head (Cabeza)</div>
+    <button class="audio-btn" onclick="reproducir('head')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/eye.jpg" alt="eye" class="imagen-parte">
+    <div class="nombre">Eye (Ojo)</div>
+    <button class="audio-btn" onclick="reproducir('eye')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/arm.jpg" alt="arm" class="imagen-parte">
+    <div class="nombre">Arm (Brazo)</div>
+    <button class="audio-btn" onclick="reproducir('arm')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/torso.jpg" alt="torso" class="imagen-parte">
+    <div class="nombre">Torso (Torso)</div>
+    <button class="audio-btn" onclick="reproducir('torso')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/hair.jpg" alt="hair" class="imagen-parte">
+    <div class="nombre">Hair (Cabello)</div>
+    <button class="audio-btn" onclick="reproducir('hair')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/eyebrow.jpg" alt="eyebrows" class="imagen-parte">
+    <div class="nombre">Eyebrows (Cejas)</div>
+    <button class="audio-btn" onclick="reproducir('eyebrows')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/eyelashes.jpg" alt="eyelashes" class="imagen-parte">
+    <div class="nombre">Eyelashes (Pestañas)</div>
+    <button class="audio-btn" onclick="reproducir('eyelashes')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/lips.jpg" alt="lips" class="imagen-parte">
+    <div class="nombre">Lips (Labios)</div>
+    <button class="audio-btn" onclick="reproducir('lips')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/mouth.jpg" alt="mouth" class="imagen-parte">
+    <div class="nombre">Mouth (Boca)</div>
+    <button class="audio-btn" onclick="reproducir('mouth')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/teeth.jpg" alt="teeth" class="imagen-parte">
+    <div class="nombre">Teeth (Dientes)</div>
+    <button class="audio-btn" onclick="reproducir('teeth')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/tongue.jpg" alt="tongue" class="imagen-parte">
+    <div class="nombre">Tongue (Lengua)</div>
+    <button class="audio-btn" onclick="reproducir('tongue')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/hand.jpg" alt="hands" class="imagen-parte">
+    <div class="nombre">Hands (Manos)</div>
+    <button class="audio-btn" onclick="reproducir('hands')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/shoulder.jpg" alt="shoulder" class="imagen-parte">
+    <div class="nombre">Shoulder (Hombro)</div>
+    <button class="audio-btn" onclick="reproducir('shoulder')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/elbow.jpg" alt="elbow" class="imagen-parte">
+    <div class="nombre">Elbow (Codo)</div>
+    <button class="audio-btn" onclick="reproducir('elbow')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/face.jpg" alt="face" class="imagen-parte">
+    <div class="nombre">Face (Cara)</div>
+    <button class="audio-btn" onclick="reproducir('face')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/nose.jpg" alt="nose" class="imagen-parte">
+    <div class="nombre">Nose (Nariz)</div>
+    <button class="audio-btn" onclick="reproducir('nose')">🔊 Escuchar</button>
+  </div>
+
+  <div class="parte"><img src="img/partes/ear.jpg" alt="ear" class="imagen-parte">
+    <div class="nombre">Ear (Oreja)</div>
+    <button class="audio-btn" onclick="reproducir('ear')">🔊 Escuchar</button>
+  </div>
+
+<div class="parte"><img src="img/partes/nail.jpg" alt="nail" class="imagen-parte">
+  <div class="nombre">Nail (Uña)</div>
+  <button class="audio-btn" onclick="reproducir('nail')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/leg.jpg" alt="leg" class="imagen-parte">
+  <div class="nombre">Leg (Pierna)</div>
+  <button class="audio-btn" onclick="reproducir('leg')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/finger.jpg" alt="finger" class="imagen-parte">
+  <div class="nombre">Finger (Dedo)</div>
+  <button class="audio-btn" onclick="reproducir('finger')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/neck.jpg" alt="neck" class="imagen-parte">
+  <div class="nombre">Neck (Cuello)</div>
+  <button class="audio-btn" onclick="reproducir('neck')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/feet.jpg" alt="feet" class="imagen-parte">
+  <div class="nombre">Feet (Pies)</div>
+  <button class="audio-btn" onclick="reproducir('feet')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/back.jpg" alt="back" class="imagen-parte">
+  <div class="nombre">Back (Espalda)</div>
+  <button class="audio-btn" onclick="reproducir('back')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/wrist.jpg" alt="wrist" class="imagen-parte">
+  <div class="nombre">Wrist (Muñeca)</div>
+  <button class="audio-btn" onclick="reproducir('wrist')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/hip.jpg" alt="hip" class="imagen-parte">
+  <div class="nombre">Hip (Cadera)</div>
+  <button class="audio-btn" onclick="reproducir('hip')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/knee.jpg" alt="knee" class="imagen-parte">
+  <div class="nombre">Knee (Rodilla)</div>
+  <button class="audio-btn" onclick="reproducir('knee')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/ankle.jpg" alt="ankle" class="imagen-parte">
+  <div class="nombre">Ankle (Tobillo)</div>
+  <button class="audio-btn" onclick="reproducir('ankle')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/chest.jpg" alt="chest" class="imagen-parte">
+  <div class="nombre">Chest (Pecho)</div>
+  <button class="audio-btn" onclick="reproducir('chest')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/toes.jpg" alt="toes" class="imagen-parte">
+  <div class="nombre">Toes (Dedos de los pies)</div>
+  <button class="audio-btn" onclick="reproducir('toes')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/stomach.jpg" alt="toes" class="imagen-parte">
+  <div class="nombre">stomach (Estomago)</div>
+  <button class="audio-btn" onclick="reproducir('stomach')">🔊 Escuchar</button>
+</div>
+
+<div class="parte"><img src="img/partes/cheeks.png" alt="cheek" class="imagen-parte">
+  <div class="nombre">Cheek (Mejilla)</div>
+  <button class="audio-btn" onclick="reproducir('cheek')">🔊 Escuchar</button>
+</div>
+</div>
+
+  <a class="volver" href="partes-cuerpo.html">⬅ Volver a actividades</a>
+
+<script>
+  function reproducir(palabra) {
+    const utterance = new SpeechSynthesisUtterance(palabra);
+    utterance.lang = 'en-US';
+    speechSynthesis.speak(utterance);
+  }
+</script>
+
+
+</body>
+</html>

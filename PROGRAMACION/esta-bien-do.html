@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego: ¿Está bien o mal? - Do/Does</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      text-align: center;
+      padding: 40px;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    .contenedor {
+      background-color: #fff3e0;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #a77b5a;
+      margin-bottom: 20px;
+    }
+
+    .oracion {
+      font-size: 1.5rem;
+      margin: 20px 0;
+    }
+
+    .botones {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      font-size: 1rem;
+      padding: 10px 20px;
+      background-color: #f4c98b;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #efb874;
+    }
+
+    #mensaje {
+      font-size: 1.2rem;
+      margin: 10px;
+      font-weight: bold;
+    }
+
+    .correccion {
+      color: #6d4c41;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .progreso {
+      margin-top: 10px;
+      color: #5d4037;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <div class="contenedor">
+    <h1>¿Está bien o mal?</h1>
+    <div class="oracion" id="oracion"></div>
+    <div class="botones">
+      <button onclick="verificar(true)">✅ Está bien</button>
+      <button onclick="verificar(false)">❌ Tiene un error</button>
+    </div>
+    <div id="mensaje"></div>
+    <div class="correccion" id="correccion"></div>
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <a class="volver" href="do-does.html">⬅ Volver</a>
+
+  <script>
+    const oraciones = [
+      { texto: "Do she like ice cream?", correcta: false, correccion: "Does she like ice cream?" },
+      { texto: "They play soccer every weekend.", correcta: true },
+      { texto: "Does he go to school?", correcta: true },
+      { texto: "Do it works well?", correcta: false, correccion: "Does it work well?" },
+      { texto: "She don't like apples.", correcta: false, correccion: "She doesn't like apples." },
+      { texto: "Do you want some juice?", correcta: true },
+      { texto: "Does they go to the park?", correcta: false, correccion: "Do they go to the park?" },
+      { texto: "We doesn’t play here.", correcta: false, correccion: "We don’t play here." },
+      { texto: "Does it rain a lot here?", correcta: true },
+      { texto: "Do Maria likes pizza?", correcta: false, correccion: "Does Maria like pizza?" }
+    ];
+
+    let index = 0;
+
+    function cargarOracion() {
+      const o = oraciones[index];
+      document.getElementById("oracion").textContent = o.texto;
+      document.getElementById("mensaje").textContent = "";
+      document.getElementById("correccion").textContent = "";
+      document.getElementById("progreso").textContent = `Frase ${index + 1} de ${oraciones.length}`;
+    }
+
+    function verificar(respuestaUsuario) {
+      const o = oraciones[index];
+      const mensaje = document.getElementById("mensaje");
+      const correc = document.getElementById("correccion");
+
+      if (respuestaUsuario === o.correcta) {
+        mensaje.textContent = "✅ ¡Muy bien!";
+        mensaje.style.color = "green";
+      } else {
+        mensaje.textContent = "❌ Intenta de nuevo...";
+        mensaje.style.color = "red";
+        if (!o.correcta && o.correccion) {
+          correc.textContent = `❗ Corrección: ${o.correccion}`;
+        }
+      }
+
+      setTimeout(() => {
+        index++;
+        if (index < oraciones.length) {
+          cargarOracion();
+        } else {
+          document.querySelector(".contenedor").innerHTML = `
+            <h2>🎉 ¡Has finalizado el juego!</h2>
+            <p>¡Sigue practicando para mejorar aún más!</p>
+            <a class="volver" href="caracteristicas-personas.html">⬅ Volver</a>
+          `;
+        }
+      }, 2000);
+    }
+
+    window.onload = cargarOracion;
+  </script>
+</body>
+</html>

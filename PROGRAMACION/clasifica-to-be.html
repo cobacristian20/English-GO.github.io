@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clasifica el verbo to be</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      text-align: center;
+      padding: 30px;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+      font-size: 2rem;
+    }
+
+    .zona-tarjetas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .tarjeta {
+      background-color: #fff3e0;
+      border: 2px solid #a77b5a;
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: grab;
+      font-weight: bold;
+    }
+
+    .zonas {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .zona-clasificacion {
+      background-color: #fdf6ee;
+      border: 2px dashed #a77b5a;
+      border-radius: 15px;
+      width: 240px;
+      min-height: 150px;
+      padding: 15px;
+    }
+
+    .zona-clasificacion h3 {
+      margin-bottom: 10px;
+      color: #5d4037;
+    }
+
+    .zona-contenido {
+      min-height: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .botones {
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-weight: bold;
+      background-color: #a77b5a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #926449;
+    }
+
+    .correcto {
+      background-color: #d4edda;
+      border-color: green;
+    }
+
+    .incorrecto {
+      background-color: #f8d7da;
+      border-color: red;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+  </style>
+</head>
+<body>
+<header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>Clasifica el verbo "to be" correctamente</h1>
+
+  <div class="zona-tarjetas" id="zona-tarjetas">
+    <div class="tarjeta" draggable="true" id="t1">I</div>
+    <div class="tarjeta" draggable="true" id="t2">You</div>
+    <div class="tarjeta" draggable="true" id="t3">He</div>
+    <div class="tarjeta" draggable="true" id="t4">She</div>
+    <div class="tarjeta" draggable="true" id="t5">It</div>
+    <div class="tarjeta" draggable="true" id="t6">We</div>
+    <div class="tarjeta" draggable="true" id="t7">They</div>
+  </div>
+
+  <div class="zonas">
+    <div class="zona-clasificacion" ondragover="permitirSoltar(event)" ondrop="soltar(event)">
+      <h3>am</h3>
+      <div class="zona-contenido"></div>
+    </div>
+    <div class="zona-clasificacion" ondragover="permitirSoltar(event)" ondrop="soltar(event)">
+      <h3>is</h3>
+      <div class="zona-contenido"></div>
+    </div>
+    <div class="zona-clasificacion" ondragover="permitirSoltar(event)" ondrop="soltar(event)">
+      <h3>are</h3>
+      <div class="zona-contenido"></div>
+    </div>
+  </div>
+
+  <div class="botones">
+    <button onclick="verificar()">Verificar</button>
+    <a href="verbo-to-be.html" class="volver">⬅ Volver a actividades</a>
+  </div>
+
+  <script>
+    const respuestas = {
+      "I": "am",
+      "You": "are",
+      "He": "is",
+      "She": "is",
+      "It": "is",
+      "We": "are",
+      "They": "are"
+    };
+
+    document.querySelectorAll(".tarjeta").forEach(t => {
+      t.addEventListener("dragstart", e => {
+        e.dataTransfer.setData("text", e.target.id);
+      });
+    });
+
+    function permitirSoltar(e) {
+      e.preventDefault();
+    }
+
+    function soltar(e) {
+      e.preventDefault();
+      const id = e.dataTransfer.getData("text");
+      const tarjeta = document.getElementById(id);
+      let zona = e.target;
+      while (!zona.classList.contains("zona-clasificacion") && !zona.classList.contains("zona-contenido")) {
+        zona = zona.parentElement;
+      }
+      const contenedor = zona.classList.contains("zona-contenido") ? zona : zona.querySelector(".zona-contenido");
+      contenedor.appendChild(tarjeta);
+    }
+
+    function verificar() {
+      document.querySelectorAll(".tarjeta").forEach(t => {
+        const palabra = t.textContent;
+        const zona = t.parentElement.previousElementSibling.textContent.trim();
+        if (zona === respuestas[palabra]) {
+          t.classList.remove("incorrecto");
+          t.classList.add("correcto");
+        } else {
+          t.classList.remove("correcto");
+          t.classList.add("incorrecto");
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

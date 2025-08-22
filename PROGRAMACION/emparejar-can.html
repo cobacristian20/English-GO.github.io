@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Emparejar acciones - ENGLISH-GO</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      text-align: center;
+      color: #4b3f2f;
+      padding: 30px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+    }
+
+    .zona-juego {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: auto;
+      margin-top: 30px;
+    }
+
+    .tarjeta {
+      height: 150px;
+      border-radius: 12px;
+      background-color: #fff3e0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .tarjeta img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .opciones {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 40px;
+    }
+
+    .opcion {
+      background-color: #f4c98b;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .opcion.dragging {
+      opacity: 0.5;
+    }
+
+    .mensaje {
+      font-weight: bold;
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      font-weight: bold;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+  </style>
+</head>
+<body>
+
+<header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>🎯 Empareja la acción correcta</h1>
+  <p>Arrastra la palabra al recuadro con la imagen correspondiente.</p>
+
+  <div class="zona-juego" id="zona-juego"></div>
+  <div class="opciones" id="opciones"></div>
+  <div class="mensaje" id="mensaje"></div>
+  <a class="volver" href="can-cant-actividades.html">⬅ Volver a actividades</a>
+
+  <script>
+    const acciones = [
+      { palabra: "run", img: "img/actions/run.jpg" },
+      { palabra: "dance", img: "img/actions/dance.jpg" },
+      { palabra: "eat", img: "img/actions/eat.jpg" },
+      { palabra: "read", img: "img/actions/read.jpg" },
+      { palabra: "swim", img: "img/actions/swim.jpg" },
+      { palabra: "draw", img: "img/actions/draw.jpg" },
+      { palabra: "write", img: "img/actions/write.jpg" },
+      { palabra: "cook", img: "img/actions/cook.jpg" },
+      { palabra: "jump", img: "img/actions/jump.jpg" },
+      { palabra: "climb", img: "img/actions/climb.jpg" },
+      { palabra: "sing", img: "img/actions/sing.jpg" },
+      { palabra: "sleep", img: "img/actions/sleep.jpg" },
+      { palabra: "paint", img: "img/actions/paint.jpg" },
+      { palabra: "listen", img: "img/actions/listen.jpg" },
+      { palabra: "ride", img: "img/actions/ride.jpg" },
+      { palabra: "speak", img: "img/actions/speak.jpg" },
+      { palabra: "walk", img: "img/actions/walk.jpg" },
+      { palabra: "smile", img: "img/actions/smile.jpg" },
+      { palabra: "wash", img: "img/actions/wash.jpg" },
+      { palabra: "drive", img: "img/actions/drive.jpg" },
+      { palabra: "throw", img: "img/actions/throw.jpg" },
+    ];
+
+    let aciertos = 0;
+    let elementoArrastrado = null;
+
+    function mezclar(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function crearJuego() {
+      const zonaJuego = document.getElementById("zona-juego");
+      const opcionesDiv = document.getElementById("opciones");
+      const mezcladas = mezclar([...acciones]);
+      const opciones = mezclar([...acciones]);
+
+      zonaJuego.innerHTML = "";
+      opcionesDiv.innerHTML = "";
+
+      mezcladas.forEach(accion => {
+        const div = document.createElement("div");
+        div.className = "tarjeta";
+        div.dataset.respuesta = accion.palabra;
+        div.ondrop = soltar;
+        div.ondragover = permitirSoltar;
+        div.innerHTML = `<img src="${accion.img}" alt="${accion.palabra}">`;
+        zonaJuego.appendChild(div);
+      });
+
+      opciones.forEach(accion => {
+        const btn = document.createElement("div");
+        btn.className = "opcion";
+        btn.textContent = accion.palabra;
+        btn.id = accion.palabra;
+        btn.draggable = true;
+        btn.ondragstart = arrastrar;
+        opcionesDiv.appendChild(btn);
+      });
+    }
+
+    function arrastrar(event) {
+      elementoArrastrado = event.target;
+      event.target.classList.add("dragging");
+    }
+
+    function permitirSoltar(event) {
+      event.preventDefault();
+    }
+
+    function soltar(event) {
+      event.preventDefault();
+      const respuesta = event.currentTarget.dataset.respuesta;
+
+      if (elementoArrastrado && elementoArrastrado.id === respuesta) {
+        event.currentTarget.innerHTML += `<div style="margin-top:10px; font-weight:bold;">✅ ${elementoArrastrado.textContent}</div>`;
+        elementoArrastrado.remove();
+        aciertos++;
+        document.getElementById("mensaje").textContent = "";
+        if (aciertos === acciones.length) {
+          document.getElementById("mensaje").textContent = "¡Excelente! Has emparejado todas las acciones 🎉";
+        }
+      } else {
+        document.getElementById("mensaje").textContent = "❌ Esa no es la acción correcta. Inténtalo de nuevo.";
+      }
+
+      if (elementoArrastrado) {
+        elementoArrastrado.classList.remove("dragging");
+      }
+    }
+
+    window.onload = crearJuego;
+  </script>
+
+</body>
+</html>

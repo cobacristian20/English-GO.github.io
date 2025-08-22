@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arrastra y Selecciona - Nivel Fácil</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #f9f5ec;
+      color: #4b3f2f;
+      text-align: center;
+      padding: 30px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+    }
+
+    .contenedor-juego {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 30px;
+    }
+
+    .imagen-zona {
+      width: 150px;
+      height: 150px;
+      border: 3px dashed #c3a995;
+      border-radius: 15px;
+      background-color: #fff;
+      padding: 10px;
+    }
+
+    .imagen-zona img {
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+    }
+
+    .imagen-zona.correcto {
+      border-color: #7cb342;
+      background-color: #eaf5e3;
+    }
+
+    .imagen-zona.incorrecto {
+      border-color: #e53935;
+      background-color: #fcecea;
+    }
+
+    .palabras {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .palabra {
+      background-color: #d7c0ae;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: grab;
+      font-weight: bold;
+      border: 2px solid transparent;
+    }
+
+    .palabra:hover {
+      background-color: #c3a995;
+    }
+
+    .botones {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .boton {
+      background-color: #a77b5a;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .boton:hover {
+      background-color: #926449;
+      transform: scale(1.05);
+    }
+
+    .mensaje {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+
+  <h1>🌱 Arrastra y Relaciona - Nivel Fácil</h1>
+
+  <div class="contenedor-juego" id="zona-imagenes">
+  </div>
+
+  <div class="palabras" id="zona-palabras">
+  </div>
+
+  <div class="mensaje" id="mensaje"></div>
+
+  <div class="botones">
+    <button class="boton" onclick="reiniciar()">🔁 Reiniciar</button>
+    <button class="boton" onclick="location.href='arrastrar-niveles.html'">⬅ Volver a niveles</button>
+  </div>
+
+  <script>
+    const pares = [
+      { palabra: "Head", imagen: "img/partes/head.jpg" },
+      { palabra: "Hand", imagen: "img/partes/hand.jpg" },
+      { palabra: "Mouth", imagen: "img/partes/mouth.jpg" },
+      { palabra: "Eye", imagen: "img/partes/eye.jpg" }
+    ];
+
+    function iniciar() {
+      const zonaImg = document.getElementById("zona-imagenes");
+      const zonaPal = document.getElementById("zona-palabras");
+      zonaImg.innerHTML = "";
+      zonaPal.innerHTML = "";
+      document.getElementById("mensaje").textContent = "";
+
+      const mezclado = [...pares].sort(() => Math.random() - 0.5);
+
+      pares.forEach(par => {
+        const div = document.createElement("div");
+        div.className = "imagen-zona";
+        div.setAttribute("data-palabra", par.palabra.toLowerCase());
+        div.ondrop = soltar;
+        div.ondragover = permitirSoltar;
+        div.innerHTML = `<img src="${par.imagen}" alt="${par.palabra}">`;
+        zonaImg.appendChild(div);
+      });
+
+      // Crear palabras para arrastrar
+      mezclado.forEach(par => {
+        const palabra = document.createElement("div");
+        palabra.className = "palabra";
+        palabra.textContent = par.palabra;
+        palabra.setAttribute("draggable", "true");
+        palabra.setAttribute("data-palabra", par.palabra.toLowerCase());
+        palabra.ondragstart = comenzarArrastre;
+        zonaPal.appendChild(palabra);
+      });
+    }
+
+    let palabraActual = "";
+
+    function comenzarArrastre(e) {
+      palabraActual = e.target.getAttribute("data-palabra");
+      e.dataTransfer.setData("text", palabraActual);
+    }
+
+    function permitirSoltar(e) {
+      e.preventDefault();
+    }
+
+    function soltar(e) {
+      e.preventDefault();
+      const zona = e.currentTarget;
+      const correcta = zona.getAttribute("data-palabra");
+
+      if (palabraActual === correcta) {
+        zona.classList.add("correcto");
+        document.querySelector(`.palabra[data-palabra="${palabraActual}"]`).remove();
+        document.getElementById("mensaje").textContent = "✅ ¡Muy bien!";
+      } else {
+        zona.classList.add("incorrecto");
+        document.getElementById("mensaje").textContent = "❌ Intenta otra vez";
+        setTimeout(() => zona.classList.remove("incorrecto"), 1000);
+      }
+
+      setTimeout(() => {
+        if (document.querySelectorAll(".palabra").length === 0) {
+          document.getElementById("mensaje").textContent = "🎉 ¡Has completado el nivel!";
+        }
+      }, 300);
+    }
+
+    function reiniciar() {
+      iniciar();
+    }
+
+    window.onload = iniciar;
+  </script>
+
+</body>
+</html>

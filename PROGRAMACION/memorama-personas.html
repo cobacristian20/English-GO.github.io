@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memorama - Personas y Comunidades</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #fff3e0, #e7d8c9);
+      color: #4b3f2f;
+      text-align: center;
+      padding: 30px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+    }
+
+    .info {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+
+    .tablero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 15px;
+      justify-content: center;
+      margin: 30px auto;
+      max-width: 800px;
+    }
+
+    .tarjeta {
+      width: 100px;
+      height: 100px;
+      background-color: #f4c98b;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .tarjeta img {
+      max-width: 70px;
+      max-height: 70px;
+      display: none;
+    }
+
+    .tarjeta.mostrando img,
+    .tarjeta.mostrando span {
+      display: block;
+    }
+
+    .tarjeta span {
+      display: none;
+    }
+
+    .tarjeta.correcta {
+      background-color: #b2dfdb;
+      cursor: default;
+    }
+
+    .botones {
+      margin-top: 20px;
+    }
+
+    .botones button,
+    .volver {
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .botones button:hover,
+    .volver:hover {
+      background-color: #c3a995;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>🧠 Memorama: Personas y Comunidades</h1>
+  <p class="info">Encuentra las parejas y cuenta tus movimientos.</p>
+  <p class="info">Movimientos: <span id="movimientos">0</span></p>
+
+  <div class="tablero" id="tablero"></div>
+
+  <div class="botones">
+    <button onclick="reiniciarJuego()">🔁 Reiniciar</button>
+    <a href="caracteristicas-personas.html" class="volver">⬅ Volver</a>
+  </div>
+
+  <script>
+  const paresBase = [
+  { palabra: "teacher", imagen:'img/comunidades/teacher.jpg' },
+  { palabra: "doctor", imagen:'img/comunidades/doctor.jpg' },
+  { palabra: "firefighter", imagen:'img/comunidades/firefighter.jpg' },
+  { palabra: "student", imagen:'img/comunidades/student.jpg' },
+  { palabra: "police officer", imagen:'img/comunidades/officer.jpg' },
+  { palabra: "farmer", imagen:'img/comunidades/farmer.jpg' },
+  { palabra: "dentist", imagen:'img/comunidades/dentist.jpg' },
+  { palabra: "chef", imagen:'img/comunidades/chef.jpg' },
+  { palabra: "mechanic", imagen:'img/comunidades/mecanic.jpg' },
+  { palabra: "artist", imagen:'img/comunidades/artist.jpg' },
+  { palabra: "nurse", imagen:'img/comunidades/nurse.jpg' },
+  { palabra: "musician", imagen:'img/comunidades/musician.jpg' },
+  { palabra: "baker", imagen:'img/comunidades/baker.jpg' },
+  { palabra: "scientist", imagen:'img/comunidades/scientist.jpg' },
+  { palabra: "pilot", imagen:'img/comunidades/pilot.jpg' },
+  ];
+
+    let tablero = document.getElementById("tablero");
+    let movimientos = 0;
+    let seleccionadas = [];
+
+    function crearCarta(carta) {
+      const div = document.createElement("div");
+      div.classList.add("tarjeta");
+      div.dataset.id = carta.id;
+
+      if (carta.tipo === "texto") {
+        const span = document.createElement("span");
+        span.textContent = carta.contenido;
+        div.appendChild(span);
+      } else {
+        const img = document.createElement("img");
+        img.src = carta.contenido;
+        img.alt = carta.id;
+        div.appendChild(img);
+      }
+
+      div.addEventListener("click", () => {
+        if (div.classList.contains("mostrando") || div.classList.contains("correcta")) return;
+
+        div.classList.add("mostrando");
+        seleccionadas.push(div);
+
+        if (seleccionadas.length === 2) {
+          movimientos++;
+          document.getElementById("movimientos").textContent = movimientos;
+
+          const [c1, c2] = seleccionadas;
+          if (c1.dataset.id === c2.dataset.id && c1 !== c2) {
+            c1.classList.add("correcta");
+            c2.classList.add("correcta");
+          } else {
+            setTimeout(() => {
+              c1.classList.remove("mostrando");
+              c2.classList.remove("mostrando");
+            }, 1000);
+          }
+          seleccionadas = [];
+        }
+      });
+
+      return div;
+    }
+
+    function cargarJuego() {
+      tablero.innerHTML = "";
+      movimientos = 0;
+      document.getElementById("movimientos").textContent = "0";
+      seleccionadas = [];
+
+      const cartas = [];
+      paresBase.forEach(par => {
+        cartas.push({ tipo: "texto", contenido: par.palabra, id: par.palabra });
+        cartas.push({ tipo: "imagen", contenido: par.imagen, id: par.palabra });
+      });
+
+      cartas.sort(() => Math.random() - 0.5);
+
+      cartas.forEach(carta => {
+        tablero.appendChild(crearCarta(carta));
+      });
+    }
+
+    function reiniciarJuego() {
+      cargarJuego();
+    }
+
+    window.onload = cargarJuego;
+  </script>
+</body>
+</html>

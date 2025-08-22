@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vocabulario - Can y Can't | ENGLISH-GO</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      color: #4b3f2f;
+      text-align: center;
+      padding: 30px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      font-size: 2.2rem;
+      color: #a77b5a;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .card {
+      background-color: #fff3e0;
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .texto {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .boton-audio {
+      background-color: #a77b5a;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .volver {
+      margin-top: 40px;
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      font-weight: bold;
+      border-radius: 15px;
+      text-decoration: none;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>📘 Vocabulario: Can y Can't</h1>
+  <p>Haz clic en el botón para escuchar cada palabra o expresión.</p>
+
+  <div class="grid">
+    <div class="card"><img src="img/can/swim.jpg" alt="swim">
+        <div class="texto">Swim  (Nadar)</div>
+    <button class="boton-audio" onclick="speak('swim')">🔊 Escuchar</button>
+</div>
+    <div class="card"><img src="img/can/fly.jpeg" alt="fly">
+        <div class="texto">Fly  (Volar)</div>
+        <button class="boton-audio" onclick="speak('fly')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/run.jpg" alt="run">
+        <div class="texto">Run  (Correr)</div>
+        <button class="boton-audio" onclick="speak('run')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/drive.jpg" alt="drive">
+        <div class="texto">Drive  (Conducir)</div>
+        <button class="boton-audio" onclick="speak('drive')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/jump.jpg" alt="jump">
+        <div class="texto">Jump  (Saltar)</div>
+        <button class="boton-audio" onclick="speak('jump')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/cook.jpg" alt="cook">
+        <div class="texto">Cook  (Cocinar)</div>
+    <button class="boton-audio" onclick="speak('cook')">🔊 Escuchar</button>
+</div>
+    <div class="card"><img src="img/can/sing.jpg" alt="sing">
+        <div class="texto">Sing  (Cantar)</div>
+        <button class="boton-audio" onclick="speak('sing')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/climb.jpg" alt="climb">
+        <div class="texto">Climb  (Trepar)</div>
+        <button class="boton-audio" onclick="speak('climb')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/fly-a-kite.jpeg" alt="fly a kite">
+        <div class="texto">Fly a kite  (Volar cometa)</div>
+        <button class="boton-audio" onclick="speak('fly a kite')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/ride.jpg" alt="ride a bike">
+        <div class="texto">Ride a bike  (Montar bicicleta)</div>
+        <button class="boton-audio" onclick="speak('ride a bike')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/paint.jpg" alt="paint">
+        <div class="texto">Paint  (Pintar)</div>
+        <button class="boton-audio" onclick="speak('paint')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/read.jpg" alt="read">
+        <div class="texto">Read  (Leer)</div>
+        <button class="boton-audio" onclick="speak('read')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/sleep.jpg" alt="sleep">
+        <div class="texto">Sleep  (Dormir)</div>
+        <button class="boton-audio" onclick="speak('sleep')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/piano.jpeg" alt="play piano">
+        <div class="texto">Play piano  (Tocar piano)</div>
+        <button class="boton-audio" onclick="speak('play piano')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/ski.jpeg" alt="ski">
+        <div class="texto">Ski  (Esquiar)</div>
+        <button class="boton-audio" onclick="speak('ski')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/dance.jpg" alt="dance">
+        <div class="texto">Dance  (Bailar)</div>
+        <button class="boton-audio" onclick="speak('dance')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/soccer.jpeg" alt="play soccer">
+        <div class="texto">Play soccer  (Jugar fútbol)</div>
+        <button class="boton-audio" onclick="speak('play soccer')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/draw.jpg" alt="draw">
+        <div class="texto">Draw  (Dibujar)</div>
+        <button class="boton-audio" onclick="speak('draw')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/lift.jpeg" alt="lift weights">
+        <div class="texto">Lift weights  (Levantar pesas)</div>
+        <button class="boton-audio" onclick="speak('lift weights')">🔊 Escuchar</button>
+    </div>
+    <div class="card"><img src="img/can/build.jpeg" alt="build">
+        <div class="texto">Build  (Construir)</div>
+        <button class="boton-audio" onclick="speak('build')">🔊 Escuchar</button>
+    </div>
+  </div>
+
+  <a href="can-cant-actividades.html" class="volver">⬅ Volver a actividades</a>
+
+  <script>
+    function speak(texto) {
+      const utterance = new SpeechSynthesisUtterance(texto);
+      utterance.lang = 'en-US';
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+
+</body>
+</html>

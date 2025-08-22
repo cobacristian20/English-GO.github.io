@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forma preguntas - Do/Does</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #f3e9dc, #fff6e0);
+      color: #4b3f2f;
+      text-align: center;
+      padding: 30px;
+      padding-top: 120px;
+    }
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+    }
+
+    .zona {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      min-height: 60px;
+      padding: 10px;
+      margin: 15px auto;
+      border: 2px dashed #a77b5a;
+      background-color: #fff3e0;
+      border-radius: 12px;
+      max-width: 600px;
+    }
+
+    .palabra {
+      background-color: #f4c98b;
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: 2px solid #a77b5a;
+      font-weight: bold;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .progreso {
+      width: 90%;
+      max-width: 600px;
+      height: 20px;
+      background-color: #e7d8c9;
+      border-radius: 10px;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+
+    #barraProgreso {
+      height: 100%;
+      background-color: #a77b5a;
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    #mensaje {
+      font-size: 1.2rem;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+
+    button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      background-color: #a77b5a;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #926449;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+  </style>
+</head>
+<body>
+<header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>Ordena las palabras para formar la pregunta</h1>
+
+  <div class="progreso">
+    <div id="barraProgreso"></div>
+  </div>
+
+  <div class="zona" id="zona-palabras" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+  <div class="zona" id="zona-frase" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+
+  <div id="mensaje"></div>
+
+  <button onclick="reiniciar()">🔁 Reiniciar</button>
+
+  <a class="volver" href="do-does.html">⬅ Volver</a>
+
+  <script>
+    const ejercicios = [
+      ["Do", "you", "like", "pizza", "?"],
+      ["Does", "she", "play", "the", "guitar", "?"],
+      ["Do", "they", "live", "in", "Paris", "?"],
+      ["Does", "he", "have", "a", "dog", "?"],
+      ["Do", "we", "go", "to", "school", "every", "day", "?"],
+      ["Does", "your", "sister", "like", "ice", "cream", "?"],
+      ["Do", "you", "have", "any", "pets", "?"]
+    ];
+
+    let indice = 0;
+
+    function crearPalabra(texto) {
+      const span = document.createElement("span");
+      span.className = "palabra";
+      span.textContent = texto;
+      span.draggable = true;
+      span.ondragstart = e => {
+        e.dataTransfer.setData("text", texto);
+        e.dataTransfer.setData("origen", span.parentElement.id);
+      };
+      return span;
+    }
+
+    function permitirSoltar(e) {
+      e.preventDefault();
+    }
+
+    function soltar(e) {
+      e.preventDefault();
+      const texto = e.dataTransfer.getData("text");
+      const origen = e.dataTransfer.getData("origen");
+      const destino = e.currentTarget;
+
+      const todasPalabras = [...document.querySelectorAll('.palabra')];
+      const palabraOriginal = todasPalabras.find(el => el.textContent === texto);
+
+      if (palabraOriginal && destino) {
+        destino.appendChild(palabraOriginal);
+        verificar();
+      }
+    }
+
+    function verificar() {
+      const zonaFrase = document.getElementById("zona-frase");
+      const respuestaUsuario = [...zonaFrase.children].map(el => el.textContent);
+      const correcta = ejercicios[indice];
+
+      const mensaje = document.getElementById("mensaje");
+
+      if (respuestaUsuario.length === correcta.length) {
+        const esCorrecta = respuestaUsuario.every((val, i) => val === correcta[i]);
+        if (esCorrecta) {
+          mensaje.textContent = "✅ ¡Muy bien!";
+          mensaje.style.color = "green";
+          setTimeout(() => {
+            siguiente();
+          }, 1200);
+        } else {
+          mensaje.textContent = "❌ Revisa el orden.";
+          mensaje.style.color = "red";
+        }
+      } else {
+        mensaje.textContent = "";
+      }
+    }
+
+    function cargarEjercicio() {
+      const palabras = ejercicios[indice];
+      const mezcladas = [...palabras].sort(() => Math.random() - 0.5);
+
+      const zonaPalabras = document.getElementById("zona-palabras");
+      const zonaFrase = document.getElementById("zona-frase");
+      zonaPalabras.innerHTML = "";
+      zonaFrase.innerHTML = "";
+      document.getElementById("mensaje").textContent = "";
+
+      mezcladas.forEach(p => {
+        zonaPalabras.appendChild(crearPalabra(p));
+      });
+
+      actualizarBarra();
+    }
+
+    function siguiente() {
+      indice++;
+      if (indice < ejercicios.length) {
+        cargarEjercicio();
+      } else {
+        document.body.innerHTML = `
+          <h1>🎉 ¡Has finalizado!</h1>
+          <p>Completaste todos los ejercicios.</p>
+          <a class="volver" href="do-does.html">⬅ Volver</a>
+        `;
+      }
+    }
+
+    function reiniciar() {
+      cargarEjercicio();
+    }
+
+    function actualizarBarra() {
+      const progreso = ((indice) / ejercicios.length) * 100;
+      document.getElementById("barraProgreso").style.width = progreso + "%";
+    }
+
+    window.onload = cargarEjercicio;
+  </script>
+</body>
+</html>

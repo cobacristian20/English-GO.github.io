@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>¿Qué puede hacer? - ENGLISH-GO</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      padding: 30px;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      font-size: 2rem;
+      color: #a77b5a;
+    }
+
+    .contenedor {
+      background-color: #fff3e0;
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    img {
+      width: 200px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .frase {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    .botones {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #f4c98b;
+      color: #4b3f2f;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #efb874;
+    }
+
+    #mensaje {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      font-weight: bold;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+
+    .barra-progreso {
+      background-color: #e7d8c9;
+      height: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    .barra-interna {
+      background-color: #a77b5a;
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    #btn-siguiente:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>¿Qué puede hacer? 🧠</h1>
+
+  <div class="barra-progreso">
+    <div id="barra" class="barra-interna"></div>
+  </div>
+
+  <div class="contenedor">
+    <img id="imagen" src="" alt="actividad">
+    <div class="frase">
+      <span id="sujeto">He</span> <strong>____</strong> <span id="verbo">swim</span>.
+    </div>
+    <div class="botones">
+      <button onclick="verificar('can')">✅ Can</button>
+      <button onclick="verificar('can´t')">❌ Can't</button>
+    </div>
+    <div id="mensaje"></div>
+    <button id="btn-siguiente" onclick="siguiente()" style="margin-top: 15px;" disabled>Siguiente ▶</button>
+  </div>
+
+  <a class="volver" href="can-cant-actividades.html">⬅ Volver a actividades</a>
+
+  <script>
+    const actividades = [
+      { sujeto: "He", verbo: "swim", imagen: "img/can/swim.jpg", respuesta: "can" },
+      { sujeto: "She", verbo: "fly", imagen: "img/can/fly.jpeg", respuesta: "can't" },
+      { sujeto: "They", verbo: "run", imagen: "img/can/run.jpg", respuesta: "can" },
+      { sujeto: "I", verbo: "drive", imagen: "img/can/drive.jpg", respuesta: "can't" },
+      { sujeto: "We", verbo: "jump", imagen: "img/can/jump.jpg", respuesta: "can" },
+      { sujeto: "He", verbo: "cook", imagen: "img/can/cook.jpg", respuesta: "can't" },
+      { sujeto: "She", verbo: "sing", imagen: "img/can/sing.jpg", respuesta: "can" },
+      { sujeto: "They", verbo: "climb", imagen: "img/can/climb.jpg", respuesta: "can" },
+      { sujeto: "I", verbo: "fly a kite", imagen: "img/can/fly-a-kite.jpeg", respuesta: "can" },
+      { sujeto: "We", verbo: "ride a bike", imagen: "img/can/ride.jpg", respuesta: "can't" },
+      { sujeto: "He", verbo: "paint", imagen: "img/can/paint.jpg", respuesta: "can" },
+      { sujeto: "She", verbo: "read", imagen: "img/can/read.jpg", respuesta: "can" },
+      { sujeto: "I", verbo: "sleep", imagen: "img/can/sleep.jpg", respuesta: "can" },
+      { sujeto: "They", verbo: "play piano", imagen: "img/can/piano.jpeg", respuesta: "can't" },
+      { sujeto: "He", verbo: "ski", imagen: "img/can/ski.jpeg", respuesta: "can" },
+      { sujeto: "She", verbo: "dance", imagen: "img/can/dance.jpg", respuesta: "can" },
+      { sujeto: "We", verbo: "play soccer", imagen: "img/can/soccer.jpeg", respuesta: "can't" },
+      { sujeto: "They", verbo: "draw", imagen: "img/can/draw.jpg", respuesta: "can" },
+      { sujeto: "I", verbo: "lift weights", imagen: "img/can/lift.jpeg", respuesta: "can't" },
+      { sujeto: "He", verbo: "build", imagen: "img/can/build.jpeg", respuesta: "can" }
+    ];
+
+    let index = 0;
+
+    function cargarActividad() {
+      const act = actividades[index];
+      document.getElementById("imagen").src = act.imagen;
+      document.getElementById("sujeto").textContent = act.sujeto;
+      document.getElementById("verbo").textContent = act.verbo;
+      document.getElementById("mensaje").textContent = "";
+      document.getElementById("btn-siguiente").disabled = true;
+
+      const progreso = ((index + 1) / actividades.length) * 100;
+      document.getElementById("barra").style.width = progreso + "%";
+    }
+
+    function verificar(eleccion) {
+      const correcto = actividades[index].respuesta;
+      const mensaje = document.getElementById("mensaje");
+
+      if (eleccion === correcto) {
+        mensaje.textContent = "¡Muy bien! ✅";
+        mensaje.style.color = "green";
+      } else {
+        mensaje.textContent = "Intenta otra vez ❌";
+        mensaje.style.color = "red";
+      }
+
+      document.getElementById("btn-siguiente").disabled = false;
+    }
+
+    function siguiente() {
+      index++;
+      if (index >= actividades.length) {
+        document.querySelector('.contenedor').innerHTML = `
+          <h2>¡Has completado todas las actividades! 🎉</h2>
+          <p>¡Muy buen trabajo!</p>
+        `;
+        document.getElementById("barra").style.width = "100%";
+        return;
+      }
+      cargarActividad();
+    }
+
+    window.onload = cargarActividad;
+  </script>
+</body>
+</html>

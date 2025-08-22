@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎉 Ordena la Pregunta - CAN</title>
+  <style>
+    :root {
+      --fondo: linear-gradient(to right, #dff9fb, #c7ecee);
+      --color-principal: #130f40;
+      --color-pastel: #f6e58d;
+      --color-hover: #f9ca24;
+    }
+
+    body {
+      background: var(--fondo);
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      padding: 30px;
+      color: var(--color-principal);
+      transition: background 0.5s ease;
+      padding-top: 120px;
+    }
+
+    .titulo-proyecto {
+  color: #a77b5a;
+  font-size: 2rem;
+  margin: 0;
+}
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+
+    }
+
+    .tema-selector {
+      margin-bottom: 1.5rem;
+    }
+
+    .contenedor {
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .zona-palabras, .zona-frase {
+      background-color: #ffffffcc;
+      border: 2px dashed var(--color-principal);
+      padding: 15px;
+      border-radius: 15px;
+      min-height: 70px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px auto;
+    }
+
+    .palabra {
+      background-color: var(--color-pastel);
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 2px solid var(--color-principal);
+      cursor: grab;
+      font-weight: bold;
+      user-select: none;
+      transition: transform 0.2s ease;
+      animation: aparecer 0.4s ease-in-out;
+    }
+
+    .palabra:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes aparecer {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .progreso {
+      background-color: #dff9fb;
+      border-radius: 10px;
+      height: 20px;
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto 25px;
+    }
+
+    .barra {
+      background-color: var(--color-hover);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease-in-out;
+    }
+
+    button {
+      margin: 15px 10px;
+      padding: 12px 24px;
+      background-color: var(--color-hover);
+      color: #130f40;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    button:hover:enabled {
+      background-color: #f0932b;
+    }
+
+    .mensaje {
+      margin-top: 12px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      font-weight: bold;
+      border-radius: 12px;
+      text-decoration: none;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 Ordena la Pregunta con <strong>CAN</strong></h1>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <div class="tema-selector">
+    <label for="tema">🎨 Cambiar tema:</label>
+    <select id="tema" onchange="cambiarTema()">
+      <option value="claro">Día brillante</option>
+      <option value="selva">Aventura selva</option>
+      <option value="espacio">Espacio estelar</option>
+    </select>
+  </div>
+
+  <div class="progreso"><div id="barraProgreso" class="barra"></div></div>
+
+  <div class="contenedor">
+    <div class="zona-palabras" id="zona-palabras" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+    <div class="zona-frase" id="zona-frase" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+
+    <button onclick="verificar()">✅ Verificar</button>
+    <button onclick="siguiente()" id="btnSiguiente" disabled>➡ Siguiente</button>
+
+    <div class="mensaje" id="mensaje"></div>
+  </div>
+
+  <a href="can-cant-actividades.html" class="volver">⬅ Volver a actividades</a>
+
+  <script>
+    const preguntas = [
+      ["Can", "you", "swim", "?"],
+      ["Can", "he", "sing", "?"],
+      ["Can", "they", "play", "soccer", "?"],
+      ["Can", "she", "read", "a", "book", "?"],
+      ["Can", "we", "go", "to", "the", "park", "?"]
+    ];
+
+    let indice = 0;
+
+    function crearPalabra(texto) {
+      const span = document.createElement("span");
+      span.className = "palabra";
+      span.textContent = texto;
+      span.draggable = true;
+      span.ondragstart = e => {
+        e.dataTransfer.setData("text", texto);
+        e.dataTransfer.setData("origen", span.parentElement.id);
+      };
+      return span;
+    }
+
+    function cargarPregunta() {
+      document.getElementById("mensaje").textContent = "";
+      document.getElementById("zona-palabras").innerHTML = "";
+      document.getElementById("zona-frase").innerHTML = "";
+      document.getElementById("btnSiguiente").disabled = true;
+
+      const palabras = [...preguntas[indice]].sort(() => Math.random() - 0.5);
+      palabras.forEach(p => document.getElementById("zona-palabras").appendChild(crearPalabra(p)));
+
+      actualizarBarraProgreso();
+    }
+
+    function permitirSoltar(e) {
+      e.preventDefault();
+    }
+
+    function soltar(e) {
+      e.preventDefault();
+      const texto = e.dataTransfer.getData("text");
+      const origen = e.dataTransfer.getData("origen");
+      const destino = e.currentTarget;
+
+      if (!texto || !origen || !destino) return;
+
+      const span = crearPalabra(texto);
+      destino.appendChild(span);
+
+      const zonaAnterior = document.getElementById(origen);
+      const elemento = [...zonaAnterior.children].find(el => el.textContent === texto);
+      if (elemento) zonaAnterior.removeChild(elemento);
+    }
+
+    function verificar() {
+      const zona = document.getElementById("zona-frase");
+      const usuario = [...zona.children].map(el => el.textContent);
+      const correcta = preguntas[indice];
+
+      if (JSON.stringify(usuario) === JSON.stringify(correcta)) {
+        document.getElementById("mensaje").textContent = "🎉 ¡Muy bien!";
+        document.getElementById("mensaje").style.color = "green";
+        document.getElementById("btnSiguiente").disabled = false;
+      } else {
+        document.getElementById("mensaje").textContent = "❌ Intenta de nuevo.";
+        document.getElementById("mensaje").style.color = "red";
+      }
+    }
+
+    function siguiente() {
+      indice++;
+      if (indice < preguntas.length) {
+        cargarPregunta();
+      } else {
+        document.body.innerHTML = `
+          <h1>🎊 ¡Felicidades!</h1>
+          <p>Has completado todas las preguntas.</p>
+          <a href="can-cant-actividades.html" class="volver">⬅ Volver a actividades</a>
+        `;
+      }
+    }
+
+    function actualizarBarraProgreso() {
+      const porcentaje = ((indice) / preguntas.length) * 100;
+      document.getElementById("barraProgreso").style.width = porcentaje + "%";
+    }
+
+    function cambiarTema() {
+      const tema = document.getElementById("tema").value;
+      const root = document.documentElement;
+
+      if (tema === "claro") {
+        root.style.setProperty('--fondo', 'linear-gradient(to right, #dff9fb, #c7ecee)');
+        root.style.setProperty('--color-principal', '#130f40');
+        root.style.setProperty('--color-pastel', '#f6e58d');
+        root.style.setProperty('--color-hover', '#f9ca24');
+      } else if (tema === "selva") {
+        root.style.setProperty('--fondo', 'linear-gradient(to right, #badc58, #6ab04c)');
+        root.style.setProperty('--color-principal', '#2d3436');
+        root.style.setProperty('--color-pastel', '#dff9fb');
+        root.style.setProperty('--color-hover', '#55efc4');
+      } else if (tema === "espacio") {
+        root.style.setProperty('--fondo', 'linear-gradient(to right, #2c3e50, #34495e)');
+        root.style.setProperty('--color-principal', '#f1c40f');
+        root.style.setProperty('--color-pastel', '#7ed6df');
+        root.style.setProperty('--color-hover', '#e67e22');
+      }
+    }
+
+    window.onload = cargarPregunta;
+  </script>
+
+</body>
+</html>

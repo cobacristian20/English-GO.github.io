@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memorama Fácil - ENGLISH-GO</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #f9f5ec;
+      color: #4b3f2f;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .mensaje {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      color: #6d4c41;
+    }
+
+    #movimientos {
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .tablero {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 15px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .carta {
+      background-color: #d7c0ae;
+      border-radius: 10px;
+      height: 100px;
+      width: 100px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: #a77b5a;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .carta img {
+      max-width: 60px;
+      max-height: 60px;
+    }
+
+    .carta.oculta {
+      background-color: #c3a995;
+      color: transparent;
+    }
+
+    .carta.acertada {
+      background-color: #bab78c;
+      cursor: default;
+      transform: scale(1.05);
+    }
+
+    .boton-reiniciar {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #a77b5a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .boton-reiniciar:hover {
+      background-color: #926449;
+      transform: scale(1.05) rotate(-2deg);
+    }
+
+    .volver {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.volver a {
+  display: inline-block;
+  background-color: #fff3e0;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1em;
+  color: #6d4c41;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.volver a:hover {
+  background-color: #fce0b2;
+}
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>🌱 Memorama - Nivel Fácil</h1>
+  <div class="mensaje" id="mensaje">¡Encuentra las parejas correctas!</div>
+  <div id="movimientos">Movimientos: 0</div>
+  <div class="tablero" id="tablero"></div>
+  <button class="boton-reiniciar" onclick="iniciarJuego()">🔁 Reiniciar</button>
+
+  <script>
+    const pares = [
+      { nombre: 'Head', imagen: 'img/partes/head.jpg' },
+      { nombre: 'Eye', imagen: 'img/partes/eye.jpg' },
+      { nombre: 'Mouth', imagen: 'img/partes/mouth.jpg' },
+      { nombre: 'Hand', imagen: 'img/partes/hand.jpg' },
+      { nombre: 'Leg', imagen: 'img/partes/leg.jpg' },
+      { nombre: 'Ear', imagen: 'img/partes/ear.jpg' }
+    ];
+
+    let cartas = [];
+    let primera = null;
+    let segunda = null;
+    let bloqueado = false;
+    let movimientos = 0;
+
+    const tablero = document.getElementById('tablero');
+    const mensaje = document.getElementById('mensaje');
+    const contador = document.getElementById('movimientos');
+
+    function iniciarJuego() {
+      cartas = [];
+      movimientos = 0;
+      contador.textContent = 'Movimientos: 0';
+      mensaje.textContent = '¡Encuentra las parejas correctas!';
+      pares.forEach(par => {
+        cartas.push({ tipo: 'imagen', valor: par.nombre, contenido: `<img src="${par.imagen}" alt="${par.nombre}">` });
+        cartas.push({ tipo: 'texto', valor: par.nombre, contenido: par.nombre });
+      });
+      cartas.sort(() => Math.random() - 0.5);
+      renderizarTablero();
+    }
+
+    function renderizarTablero() {
+      tablero.innerHTML = '';
+      cartas.forEach((carta, index) => {
+        const div = document.createElement('div');
+        div.className = 'carta oculta';
+        div.dataset.index = index;
+        div.innerHTML = '';
+        div.addEventListener('click', () => seleccionarCarta(index));
+        tablero.appendChild(div);
+      });
+    }
+
+    function seleccionarCarta(index) {
+      if (bloqueado) return;
+
+      const carta = cartas[index];
+      const div = tablero.children[index];
+      if (div.classList.contains('acertada') || !div.classList.contains('oculta')) return;
+
+      div.innerHTML = carta.contenido;
+      div.classList.remove('oculta');
+
+      if (!primera) {
+        primera = { carta, index };
+      } else {
+        segunda = { carta, index };
+        verificarPareja();
+      }
+    }
+
+    function verificarPareja() {
+      bloqueado = true;
+      const div1 = tablero.children[primera.index];
+      const div2 = tablero.children[segunda.index];
+
+      movimientos++;
+      contador.textContent = `Movimientos: ${movimientos}`;
+
+      if (primera.carta.valor === segunda.carta.valor && primera.carta.tipo !== segunda.carta.tipo) {
+        div1.classList.add('acertada');
+        div2.classList.add('acertada');
+        mensaje.textContent = '¡Muy bien!';
+        setTimeout(() => {
+          resetearSeleccion();
+          verificarFin();
+        }, 800);
+      } else {
+        mensaje.textContent = 'Intenta otra vez...';
+        setTimeout(() => {
+          div1.classList.add('oculta');
+          div1.innerHTML = '';
+          div2.classList.add('oculta');
+          div2.innerHTML = '';
+          resetearSeleccion();
+        }, 1000);
+      }
+    }
+
+    function resetearSeleccion() {
+      primera = null;
+      segunda = null;
+      bloqueado = false;
+    }
+
+    function verificarFin() {
+      const todasAcertadas = [...tablero.children].every(div => div.classList.contains('acertada'));
+      if (todasAcertadas) {
+        mensaje.textContent = `🎉 ¡Completaste el juego en ${movimientos} movimientos!`;
+      }
+    }
+
+    iniciarJuego();
+  </script>
+
+<div class="volver">
+  <a href="memorama-niveles.html">⬅ Volver a niveles</a>
+</div>
+</body>
+</html>

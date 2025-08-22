@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vocabulario - Personas y Comunidades</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #f5e6d3, #f3e9dc);
+      font-family: 'Comic Sans MS', cursive;
+      color: #4b3f2f;
+      text-align: center;
+      padding: 30px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f4c98b;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      padding: 10px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin-right: 15px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    h1 {
+      color: #a77b5a;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .vocab-card {
+      background-color: #fff3e0;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vocab-card:hover {
+      transform: scale(1.05);
+      background-color: #ffe4c4;
+    }
+
+    .emoji {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .palabra {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #6d4c41;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .significado {
+      font-size: 1rem;
+      color: #4b3f2f;
+      margin-top: 6px;
+    }
+
+    .audio-btn {
+      margin-left: 6px;
+      padding: 6px 10px;
+      background-color: #d7c0ae;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+
+    .audio-btn:hover {
+      background-color: #c3a995;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 12px 24px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      font-weight: bold;
+      border-radius: 15px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+    }
+
+    @media (max-width: 480px) {
+      .vocab-card { min-height: 120px; padding: 14px; }
+      .emoji { font-size: 34px; }
+      .palabra { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+    <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+    <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+  </header>
+
+  <h1>📘 Vocabulario: Personas y Comunidades</h1>
+
+  <div class="vocab-grid">
+    <div class="vocab-card">
+      <div class="emoji">👩‍🏫</div>
+      <div class="palabra">Teacher</div>
+      <div class="significado">Maestro/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">👨‍⚕️</div>
+      <div class="palabra">Doctor</div>
+      <div class="significado">Doctor/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">👨‍🚒</div>
+      <div class="palabra">Firefighter</div>
+      <div class="significado">Bombero/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">👮‍♀️</div>
+      <div class="palabra">Police officer</div>
+      <div class="significado">Policía</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">👷</div>
+      <div class="palabra">Builder</div>
+      <div class="significado">Constructor/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">👩‍🍳</div>
+      <div class="palabra">Cook</div>
+      <div class="significado">Cocinero/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🧼</div>
+      <div class="palabra">Clean</div>
+      <div class="significado">Limpio/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">😊</div>
+      <div class="palabra">Friendly</div>
+      <div class="significado">Amable</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">💪</div>
+      <div class="palabra">Hardworking</div>
+      <div class="significado">Trabajador/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🤝</div>
+      <div class="palabra">Helpful</div>
+      <div class="significado">Servicial</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🏫</div>
+      <div class="palabra">School</div>
+      <div class="significado">Escuela</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🏥</div>
+      <div class="palabra">Hospital</div>
+      <div class="significado">Hospital</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🧒</div>
+      <div class="palabra">Child</div>
+      <div class="significado">Niño/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">👨‍👩‍👧‍👦</div>
+      <div class="palabra">Family</div>
+      <div class="significado">Familia</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">👵</div>
+      <div class="palabra">Grandmother</div>
+      <div class="significado">Abuela</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">👴</div>
+      <div class="palabra">Grandfather</div>
+      <div class="significado">Abuelo</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🏘️</div>
+      <div class="palabra">Neighborhood</div>
+      <div class="significado">Vecindario</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">💬</div>
+      <div class="palabra">Respectful</div>
+      <div class="significado">Respetuoso/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🧏‍♂️</div>
+      <div class="palabra">Listener</div>
+      <div class="significado">Buen oyente</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🧑‍🎨</div>
+      <div class="palabra">Artist</div>
+      <div class="significado">Artista</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🎒</div>
+      <div class="palabra">Student</div>
+      <div class="significado">Estudiante</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🚒</div>
+      <div class="palabra">Firetruck driver</div>
+      <div class="significado">Conductor de camión de bomberos</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🎂</div>
+      <div class="palabra">Cake decorator</div>
+      <div class="significado">Decorador/a de pasteles</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🌾</div>
+      <div class="palabra">Farmer</div>
+      <div class="significado">Granjero/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🤠</div>
+      <div class="palabra">Cowboy</div>
+      <div class="significado">Vaquero</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🍞</div>
+      <div class="palabra">Baker</div>
+      <div class="significado">Panadero/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">👩‍⚕️</div>
+      <div class="palabra">Nurse</div>
+      <div class="significado">Enfermero/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🎶</div>
+      <div class="palabra">Musician</div>
+      <div class="significado">Músico/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🦷</div>
+      <div class="palabra">Dentist</div>
+      <div class="significado">Dentista</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🧑‍✈️</div>
+      <div class="palabra">Pilot</div>
+      <div class="significado">Piloto</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🔬</div>
+      <div class="palabra">Scientist</div>
+      <div class="significado">Científico/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🔧</div>
+      <div class="palabra">Mechanic</div>
+      <div class="significado">Mecánico/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🐾</div>
+      <div class="palabra">Vet</div>
+      <div class="significado">Veterinario/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">📚</div>
+      <div class="palabra">Library</div>
+      <div class="significado">Biblioteca</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🏦</div>
+      <div class="palabra">Bank</div>
+      <div class="significado">Banco</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🦁</div>
+      <div class="palabra">Zoo</div>
+      <div class="significado">Zoológico</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">💊</div>
+      <div class="palabra">Pharmacy</div>
+      <div class="significado">Farmacia</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">💇‍♀️</div>
+      <div class="palabra">Hairdresser</div>
+      <div class="significado">Peluquero/a</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🏤</div>
+      <div class="palabra">Post office</div>
+      <div class="significado">Oficina de correos</div>
+    </div>
+
+    <div class="vocab-card">
+      <div class="emoji">🛠️</div>
+      <div class="palabra">Engineer</div>
+      <div class="significado">Ingeniero/a</div>
+    </div>
+  </div>
+
+  <a href="caracteristicas-personas.html" class="volver">⬅ Volver</a>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.vocab-card').forEach(card => {
+        const palabraEl = card.querySelector('.palabra');
+        if (!palabraEl) return;
+        const texto = palabraEl.textContent.trim();
+        const btn = document.createElement('button');
+        btn.className = 'audio-btn';
+        btn.type = 'button';
+        btn.title = `Escuchar "${texto}"`;
+        btn.setAttribute('aria-label', `Escuchar ${texto}`);
+        btn.innerText = '🔊';
+        btn.addEventListener('click', () => pronunciar(texto));
+        palabraEl.appendChild(btn);
+      });
+    });
+
+    function pronunciar(texto) {
+      if (!('speechSynthesis' in window)) {
+        alert('Tu navegador no soporta síntesis de voz.');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(texto);
+      utterance.lang = 'en-US'; 
+      utterance.rate = 0.95; 
+      window.speechSynthesis.speak(utterance);
+    }
+  </script>
+
+</body>
+</html>

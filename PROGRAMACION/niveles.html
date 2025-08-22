@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selecciona Nivel - ENGLISH-GO</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      color: #5d4037;
+      text-align: center;
+      padding: 50px;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+
+    .titulo-proyecto {
+  color: #a77b5a;
+  font-size: 2rem;
+  margin: 0;
+}
+    h1 {
+      font-size: 36px;
+    }
+
+    .niveles-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .nivel {
+      padding: 30px;
+      border-radius: 15px;
+      width: 200px;
+      background-color: #fdf6ee;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .nivel:hover {
+      transform: scale(1.05);
+      background-color: #ffe8d2;
+    }
+
+    .nivel h2 {
+      font-size: 24px;
+    }
+
+    .emoji {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 50px;
+      padding: 12px 24px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      font-weight: bold;
+      border-radius: 15px;
+      text-decoration: none;
+      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .volver:hover {
+      background-color: #c3a995;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>Selecciona el nivel del quiz</h1>
+  <div class="niveles-container">
+    <div class="nivel" onclick="location.href='quiz-facil.html'">
+      <div class="emoji">🌟</div>
+      <h2>Fácil</h2>
+      <p>Para comenzar y practicar palabras básicas.</p>
+    </div>
+    <div class="nivel" onclick="location.href='quiz-normal.html'">
+      <div class="emoji">🎯</div>
+      <h2>Normal</h2>
+      <p>Un reto moderado para reforzar lo aprendido.</p>
+    </div>
+    <div class="nivel" onclick="location.href='quiz-dificil.html'">
+      <div class="emoji">🔥</div>
+      <h2>Difícil</h2>
+      <p>¡Pon a prueba todo tu conocimiento!</p>
+    </div>
+  </div>
+
+  <a href="partes-cuerpo.html" class="volver">⬅ Volver a actividades</a>
+</body>
+</html>

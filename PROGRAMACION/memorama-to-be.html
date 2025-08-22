@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memorama - Verbo To Be</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #f5e6d3, #e7d8c9);
+      padding: 30px;
+      text-align: center;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+      margin-bottom: 20px;
+    }
+
+    .tablero {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      gap: 15px;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .carta {
+      background-color: #fff3e0;
+      border: 2px solid #a77b5a;
+      border-radius: 12px;
+      font-size: 2rem;
+      height: 100px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+      user-select: none;
+    }
+
+    .carta.revelada {
+      background-color: #f4c98b;
+    }
+
+    .mensaje {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .reiniciar {
+      margin-top: 25px;
+      padding: 10px 20px;
+      background-color: #d7c0ae;
+      color: #4b3f2f;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .reiniciar:hover {
+      background-color: #c3a995;
+    }
+
+    .volver {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 24px;
+  background-color: #d7c0ae;
+  color: #4b3f2f;
+  font-weight: bold;
+  border-radius: 15px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+.volver:hover {
+  background-color: #c3a995;
+}
+
+  </style>
+</head>
+<body>
+
+  <header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>🎯 Memorama - Verbo To Be</h1>
+  <div class="tablero" id="tablero"></div>
+  <div class="mensaje" id="mensaje"></div>
+  <button class="reiniciar" onclick="iniciarJuego()">🔁 Reiniciar</button>
+
+<script>
+const pares = [
+  { texto: "👦 He", tipo: "sujeto", verbo: "is" },
+  { texto: "👧 She", tipo: "sujeto", verbo: "is" },
+  { texto: "👶 It", tipo: "sujeto", verbo: "is" },
+  { texto: "🧑‍🤝‍🧑 They", tipo: "sujeto", verbo: "are" },
+  { texto: "🧍 I", tipo: "sujeto", verbo: "am" },
+  { texto: "👥 We", tipo: "sujeto", verbo: "are" },
+  { texto: "is", tipo: "verbo", verbo: "is" },
+  { texto: "is", tipo: "verbo", verbo: "is" },
+  { texto: "is", tipo: "verbo", verbo: "is" },
+  { texto: "are", tipo: "verbo", verbo: "are" },
+  { texto: "am", tipo: "verbo", verbo: "am" },
+  { texto: "are", tipo: "verbo", verbo: "are" }
+];
+
+let cartas = [];
+let primera = null;
+let bloquear = false;
+let encontrados = 0;
+
+function iniciarJuego() {
+  const tablero = document.getElementById("tablero");
+  const mensaje = document.getElementById("mensaje");
+  tablero.innerHTML = "";
+  mensaje.textContent = "";
+  encontrados = 0;
+  bloquear = false;
+
+  cartas = [...pares].sort(() => Math.random() - 0.5);
+
+  cartas.forEach((carta, index) => {
+    const div = document.createElement("div");
+    div.classList.add("carta");
+    div.dataset.tipo = carta.tipo;
+    div.dataset.verbo = carta.verbo;
+    div.dataset.texto = carta.texto;
+    div.dataset.index = index;
+    div.onclick = () => revelar(div);
+    tablero.appendChild(div);
+  });
+}
+
+function revelar(carta) {
+  if (bloquear || carta.classList.contains("revelada")) return;
+
+  carta.textContent = carta.dataset.texto;
+  carta.classList.add("revelada");
+
+  if (!primera) {
+    primera = carta;
+  } else {
+    bloquear = true;
+    const segunda = carta;
+
+    if (
+      primera.dataset.index !== segunda.dataset.index &&
+      ((primera.dataset.tipo === "sujeto" && segunda.dataset.tipo === "verbo") ||
+       (primera.dataset.tipo === "verbo" && segunda.dataset.tipo === "sujeto")) &&
+      primera.dataset.verbo === segunda.dataset.verbo
+    ) {
+      setTimeout(() => {
+        primera.style.visibility = "hidden";
+        segunda.style.visibility = "hidden";
+        encontrados++;
+        if (encontrados === pares.length / 2) {
+          document.getElementById("mensaje").textContent = "🎉 ¡Has encontrado todos los pares!";
+        }
+        reiniciarSeleccion();
+      }, 600);
+    } else {
+      setTimeout(() => {
+        primera.textContent = "";
+        segunda.textContent = "";
+        primera.classList.remove("revelada");
+        segunda.classList.remove("revelada");
+        reiniciarSeleccion();
+      }, 1000);
+    }
+  }
+}
+
+function reiniciarSeleccion() {
+  primera = null;
+  bloquear = false;
+}
+
+window.onload = iniciarJuego;
+</script>
+
+<a href="verbo-to-be.html" class="volver">⬅ Volver a actividades</a>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Fácil</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #fff6e0, #f3e2c7);
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      padding: 30px;
+      color: #4b3f2f;
+      padding-top: 120px;
+    }
+
+    .encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4c98b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+    h1 {
+      color: #a77b5a;
+      margin-bottom: 1rem;
+    }
+
+    .zona-palabras, .zona-frase {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 15px auto;
+      min-height: 50px;
+    }
+
+    .palabra {
+      background-color: #f4c98b;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: grab;
+      border: 2px solid #a77b5a;
+      font-weight: bold;
+      user-select: none;
+    }
+
+    .frase-drop, .zona-palabras {
+      border: 2px dashed #a77b5a;
+      background-color: #fff3e0;
+      padding: 10px;
+      border-radius: 12px;
+      min-height: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      margin: 15px 5px;
+      padding: 10px 20px;
+      background-color: #a77b5a;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    button:hover:enabled {
+      background-color: #926449;
+    }
+
+    .mensaje {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .progreso {
+      background-color: #e7d8c9;
+      border-radius: 10px;
+      height: 20px;
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto 25px;
+      overflow: hidden;
+    }
+
+    .barra {
+      background-color: #a77b5a;
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+        .volver {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.volver a {
+  display: inline-block;
+  background-color: #fff3e0;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1em;
+  color: #6d4c41;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.volver a:hover {
+  background-color: #fce0b2;
+}
+  </style>
+</head>
+<body>
+
+<header class="encabezado">
+  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+</header>
+  <h1>Arrastra las palabras y forma la frase</h1>
+
+  <div class="progreso"><div id="barraProgreso" class="barra"></div></div>
+
+  <div class="zona-palabras" id="zona-palabras" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+  <div class="frase-drop" id="zona-frase" ondragover="permitirSoltar(event)" ondrop="soltar(event)"></div>
+
+  <button onclick="verificar()" id="btnVerificar">Verificar</button>
+  <button onclick="siguiente()" id="btnSiguiente" disabled>Siguiente ▶</button>
+  <div class="mensaje" id="mensaje"></div>
+
+  <script>
+    const ejercicios = [
+      { frase: ["He", "can", "run"] },
+      { frase: ["She", "can't", "fly"] },
+      { frase: ["I", "can", "cook"] },
+      { frase: ["They", "can", "swim"] },
+      { frase: ["We", "can't", "drive"] },
+      { frase: ["You", "can", "dance"] }
+    ];
+
+    let indice = 0;
+    let respuestaCorrecta = false;
+
+    function crearPalabra(texto) {
+      const span = document.createElement("span");
+      span.className = "palabra";
+      span.textContent = texto;
+      span.draggable = true;
+      span.ondragstart = e => {
+        e.dataTransfer.setData("text", texto);
+        e.dataTransfer.setData("origen", span.parentElement.id);
+      };
+      return span;
+    }
+
+    function cargarEjercicio() {
+      const ejercicio = ejercicios[indice];
+      const zonaPalabras = document.getElementById("zona-palabras");
+      const zonaFrase = document.getElementById("zona-frase");
+      zonaPalabras.innerHTML = "";
+      zonaFrase.innerHTML = "";
+      document.getElementById("mensaje").textContent = "";
+      document.getElementById("btnSiguiente").disabled = true;
+      respuestaCorrecta = false;
+
+      const palabrasMezcladas = [...ejercicio.frase].sort(() => Math.random() - 0.5);
+      palabrasMezcladas.forEach(p => {
+        zonaPalabras.appendChild(crearPalabra(p));
+      });
+
+      actualizarBarraProgreso();
+    }
+
+    function permitirSoltar(e) {
+      e.preventDefault();
+    }
+
+    function soltar(e) {
+      e.preventDefault();
+      const texto = e.dataTransfer.getData("text");
+      const origen = e.dataTransfer.getData("origen");
+      const idDestino = e.currentTarget.id;
+
+      if (!texto || !origen || !idDestino) return;
+
+      const span = crearPalabra(texto);
+      document.getElementById(idDestino).appendChild(span);
+
+      const zonaAnterior = document.getElementById(origen);
+      const elementoAnterior = [...zonaAnterior.children].find(el => el.textContent === texto);
+      if (elementoAnterior) zonaAnterior.removeChild(elementoAnterior);
+    }
+
+    function verificar() {
+      const zonaFrase = document.getElementById("zona-frase");
+      const respuestaUsuario = [...zonaFrase.children].map(el => el.textContent);
+      const correcta = ejercicios[indice].frase;
+
+      const mensaje = document.getElementById("mensaje");
+
+      if (JSON.stringify(respuestaUsuario) === JSON.stringify(correcta)) {
+        mensaje.textContent = "✅ ¡Correcto!";
+        mensaje.style.color = "green";
+        respuestaCorrecta = true;
+        document.getElementById("btnSiguiente").disabled = false;
+      } else {
+        mensaje.textContent = "❌ Intenta de nuevo";
+        mensaje.style.color = "red";
+      }
+    }
+
+    function siguiente() {
+      if (!respuestaCorrecta) return;
+      indice++;
+      if (indice < ejercicios.length) {
+        cargarEjercicio();
+      } else {
+        document.body.innerHTML = `
+          <h1>🎉 ¡Completaste todos los ejercicios!</h1>
+          <p>¡Buen trabajo!</p>
+          <a href="quizzes-can.html" style="display:inline-block; margin-top:20px; padding:12px 24px; background:#a77b5a; color:white; text-decoration:none; border-radius:10px;">⬅ Volver a quizzes</a>
+        `;
+      }
+    }
+
+    function actualizarBarraProgreso() {
+      const porcentaje = ((indice) / ejercicios.length) * 100;
+      document.getElementById("barraProgreso").style.width = porcentaje + "%";
+    }
+
+    window.onload = cargarEjercicio;
+  </script>
+
+    <div class="volver">
+  <a href="quizzes-can.html">⬅ Volver a niveles</a>
+</div>
+</body>
+</html>
