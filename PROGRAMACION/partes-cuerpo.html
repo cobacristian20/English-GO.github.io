@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Actividades: Partes del Cuerpo - ENGLISH-GO</title>
-    <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
+  <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
   <style>
     body {
       background: linear-gradient(to right, #f5e6d3, #e7d8c9);
@@ -60,8 +60,9 @@
       background-color: #f4c98b;
       padding: 20px;
       border-radius: 15px;
-      transition: transform 0.3s;
+      transition: transform 0.3s, background-color 0.3s;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
     }
 
     .card:hover {
@@ -69,12 +70,12 @@
       background-color: #efb874;
     }
 
-    .card a {
-      text-decoration: none;
+    .card strong {
+      display: block;
       color: #4b3621;
       font-weight: bold;
       font-size: 1.2rem;
-      display: block;
+      margin-top: 5px;
     }
 
     .card p {
@@ -91,11 +92,13 @@
       font-weight: bold;
       border-radius: 15px;
       text-decoration: none;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.2s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     }
 
     .volver:hover {
       background-color: #c3a995;
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -107,34 +110,37 @@
 </header>
 
 <h1>🧍 Actividades: Partes del Cuerpo</h1>
+
 <h2>📘 Vocabulario</h2>
 <div class="tarjetas">
-  <div class="card">
-    <a href="vocabulario-partes.html">📖 Ver vocabulario</a>
+  <div class="card" onclick="window.location.href='vocabulario-partes.html'">
+    📖 <strong>Ver vocabulario</strong>
     <p>Consulta las palabras en inglés para las partes del cuerpo con imágenes.</p>
   </div>
 </div>
 
 <h2>🎮 Juegos interactivos</h2>
 <div class="tarjetas">
-  <div class="card">
-    <a href="memorama-niveles.html">🧠 Juego de Memoria</a>
+  <div class="card" onclick="window.location.href='memorama-niveles.html'">
+    🧠 <strong>Juego de Memoria</strong>
     <p>Relaciona imágenes y palabras de las partes del cuerpo.</p>
   </div>
-  <div class="card">
-    <a href="arrastrar-niveles.html">🧩 Arrastra y Relaciona</a>
+
+  <div class="card" onclick="window.location.href='arrastrar-niveles.html'">
+    🧩 <strong>Arrastra y Relaciona</strong>
     <p>Arrastra las palabras hacia la parte del cuerpo correcta.</p>
   </div>
-  <div class="card">
-    <a href="escuchar-partes.html">🎧 Escucha y Adivina</a>
+
+  <div class="card" onclick="window.location.href='escuchar-partes.html'">
+    🎧 <strong>Escucha y Adivina</strong>
     <p>Escucha la pronunciación y selecciona la parte del cuerpo correcta.</p>
   </div>
 </div>
 
 <h2>📝 Quiz</h2>
 <div class="tarjetas">
-  <div class="card">
-    <a href="niveles.html">🔍 Quiz de Vocabulario</a>
+  <div class="card" onclick="window.location.href='niveles.html'">
+    🔍 <strong>Quiz de Vocabulario</strong>
     <p>Responde preguntas para practicar el vocabulario aprendido.</p>
   </div>
 </div>

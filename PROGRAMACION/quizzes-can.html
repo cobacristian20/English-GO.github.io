@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Selecciona Nivel - Quiz Can y Can’t</title>
-    <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
+  <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
   <style>
     body {
       background: linear-gradient(to right, #f5e6d3, #e7d8c9);
@@ -16,25 +16,26 @@
     }
 
     .encabezado {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f4c98b;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  padding: 10px 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  z-index: 1000;
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f4c98b;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      padding: 10px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
 
-.logo {
-  width: 100px;
-  height: 100px;
-  margin-right: 15px;
-  border-radius: 50%;
-}
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin-right: 15px;
+      border-radius: 50%;
+    }
+
     h1 {
       font-size: 2.3rem;
       color: #a77b5a;
@@ -63,17 +64,20 @@
       background-color: #efb874;
     }
 
+    /* Eliminamos el subrayado y color del enlace, pero lo dejamos ocupando todo el div */
     .card a {
       text-decoration: none;
       color: #4b3621;
       font-weight: bold;
       font-size: 1.2rem;
       display: block;
+      pointer-events: none; /* Hace que el clic pase al div */
     }
 
     .card p {
       font-size: 0.95rem;
       margin-top: 5px;
+      pointer-events: none;
     }
 
     .volver {
@@ -96,27 +100,38 @@
 <body>
 
   <header class="encabezado">
-  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
-  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
-</header>
+    <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+    <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+  </header>
+
   <h1>🧠 Elige el nivel del quiz</h1>
 
   <div class="grid">
-    <div class="card">
+    <div class="card" data-link="quiz-can-facil.html">
       <a href="quiz-can-facil.html">🌱 Fácil</a>
       <p>Preguntas simples con vocabulario básico.</p>
     </div>
-    <div class="card">
+    <div class="card" data-link="quiz-can-normal.html">
       <a href="quiz-can-normal.html">🎯 Normal</a>
       <p>Oraciones completas con estructuras variadas.</p>
     </div>
-    <div class="card">
+    <div class="card" data-link="quiz-can-dificil.html">
       <a href="quiz-can-dificil.html">🔥 Difícil</a>
       <p>Oraciones complejas y comprensión contextual.</p>
     </div>
   </div>
 
   <a class="volver" href="can-cant-actividades.html">⬅ Volver a actividades</a>
+
+  <script>
+    // Hace clickeable todo el div
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        const link = card.getAttribute('data-link');
+        window.location.href = link;
+      });
+    });
+  </script>
 
 </body>
 </html>

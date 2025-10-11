@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Actividades: Verbo To Be - ENGLISH-GO</title>
-    <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
+  <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
   <style>
     body {
       background: linear-gradient(to right, #f5e6d3, #e7d8c9);
@@ -16,25 +16,26 @@
     }
 
     .encabezado {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f4c98b;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  padding: 10px 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  z-index: 1000;
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f4c98b;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      padding: 10px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
 
-.logo {
-  width: 100px;
-  height: 100px;
-  margin-right: 15px;
-  border-radius: 50%;
-}
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin-right: 15px;
+      border-radius: 50%;
+    }
+
     h1 {
       font-size: 2rem;
       color: #a77b5a;
@@ -72,6 +73,7 @@
       border-radius: 15px;
       transition: transform 0.3s;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
     }
 
     .card:hover {
@@ -85,11 +87,13 @@
       font-weight: bold;
       font-size: 1.2rem;
       display: block;
+      pointer-events: none; /* Permite que el clic funcione en todo el div */
     }
 
     .card p {
       margin-top: 8px;
       font-size: 1rem;
+      pointer-events: none;
     }
 
     .volver {
@@ -112,9 +116,10 @@
 <body>
 
   <header class="encabezado">
-  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
-  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
-</header>
+    <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+    <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+  </header>
+
   <h1>Actividades: Verbo "To Be"</h1>
 
   <section class="explicacion">
@@ -142,7 +147,7 @@
 
   <h2>📘 Vocabulario</h2>
   <div class="tarjetas">
-    <div class="card">
+    <div class="card" data-link="vocabulario-to-be.html">
       <a href="vocabulario-to-be.html">📖 Ver vocabulario</a>
       <p>Palabras y ejemplos que acompañan el uso del verbo to be con imágenes y emojis.</p>
     </div>
@@ -150,15 +155,15 @@
 
   <h2>🎮 Juegos interactivos</h2>
   <div class="tarjetas">
-    <div class="card">
+    <div class="card" data-link="adivina-quien-soy.html">
       <a href="adivina-quien-soy.html">🕵️‍♂️ ¿Quién soy?</a>
       <p>Lee las pistas y adivina usando frases con el verbo to be.</p>
     </div>
-    <div class="card">
+    <div class="card" data-link="memorama-to-be.html">
       <a href="memorama-to-be.html">🧠 Memorama to be</a>
       <p>Empareja emojis con frases correctas usando el verbo to be.</p>
     </div>
-    <div class="card">
+    <div class="card" data-link="clasifica-to-be.html">
       <a href="clasifica-to-be.html">📦 Clasifica las formas</a>
       <p>Arrastra cada frase a la forma correcta: am, is o are.</p>
     </div>
@@ -166,13 +171,22 @@
 
   <h2>🧠 Quiz de práctica</h2>
   <div class="tarjetas">
-    <div class="card">
+    <div class="card" data-link="quiz-to-be.html">
       <a href="quiz-to-be.html">🎓 Quiz interactivo</a>
       <p>Selecciona la opción correcta para completar frases con el verbo to be.</p>
     </div>
   </div>
 
   <a class="volver" href="grado4.html">⬅ Volver a Niveles</a>
+
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        const link = card.getAttribute('data-link');
+        if (link) window.location.href = link;
+      });
+    });
+  </script>
 
 </body>
 </html>

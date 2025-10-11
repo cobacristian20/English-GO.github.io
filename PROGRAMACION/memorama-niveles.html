@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Selecciona Nivel - Memorama</title>
-    <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
+  <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
   <style>
     body {
       background: linear-gradient(to right, #f5e6d3, #e7d8c9);
@@ -16,25 +16,26 @@
     }
 
     .encabezado {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f4c98b;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  padding: 10px 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  z-index: 1000;
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f4c98b;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      padding: 10px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
 
-.logo {
-  width: 100px;
-  height: 100px;
-  margin-right: 15px;
-  border-radius: 50%;
-}
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin-right: 15px;
+      border-radius: 50%;
+    }
+
     h1 {
       color: #a77b5a;
       font-size: 2.5rem;
@@ -63,20 +64,16 @@
       background-color: #ffe8d2;
     }
 
-    .card a {
-      text-decoration: none;
-      color: #4b3621;
-      display: block;
-    }
-
     .card h2 {
       font-size: 1.8rem;
       margin-bottom: 0.5rem;
+      color: #4b3621;
     }
 
     .card p {
       font-size: 1rem;
       margin: 0;
+      color: #4b3621;
     }
 
     .volver {
@@ -101,31 +98,26 @@
 <body>
 
   <header class="encabezado">
-  <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
-  <h1 class="titulo-proyecto">ENGLISH-GO</h1>
-</header>
+    <img src="img/logo.png" alt="Logo ENGLISH-GO" class="logo" />
+    <h1 class="titulo-proyecto">ENGLISH-GO</h1>
+  </header>
+
   <h1>🧠 Elige un nivel para el memorama</h1>
 
   <div class="nivel-grid">
-    <div class="card">
-      <a href="memorama-facil.html">
-        <h2>🌱 Fácil</h2>
-        <p>6 pares de cartas, ideal para comenzar y aprender las palabras básicas.</p>
-      </a>
+    <div class="card" onclick="window.location.href='memorama-facil.html'">
+      <h2>🌱 Fácil</h2>
+      <p>6 pares de cartas, ideal para comenzar y aprender las palabras básicas.</p>
     </div>
 
-    <div class="card">
-      <a href="memorama-normal.html">
-        <h2>🎯 Normal</h2>
-        <p>12 pares con más vocabulario. Pon a prueba tu memoria y atención.</p>
-      </a>
+    <div class="card" onclick="window.location.href='memorama-normal.html'">
+      <h2>🎯 Normal</h2>
+      <p>12 pares con más vocabulario. Pon a prueba tu memoria y atención.</p>
     </div>
 
-    <div class="card">
-      <a href="memorama-dificil.html">
-        <h2>🔥 Difícil</h2>
-        <p>27 pares con imágenes y palabras. ¡Demuestra lo que sabes!</p>
-      </a>
+    <div class="card" onclick="window.location.href='memorama-dificil.html'">
+      <h2>🔥 Difícil</h2>
+      <p>27 pares con imágenes y palabras. ¡Demuestra lo que sabes!</p>
     </div>
   </div>
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Personas y Comunidades - ENGLISH-GO</title>
-    <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
+  <link rel="shortcut icon" href="img/logo_r.png" type="image/x-icon">
   <style>
     body {
       background: linear-gradient(to right, #f0e5cf, #e0cfc0);
@@ -16,33 +16,32 @@
     }
 
     .encabezado {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f4c98b;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  padding: 10px 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  z-index: 1000;
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f4c98b;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      padding: 10px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
 
-.logo {
-  width: 100px;
-  height: 100px;
-  margin-right: 15px;
-  border-radius: 50%;
-}
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin-right: 15px;
+      border-radius: 50%;
+    }
 
-.titulo-proyecto {
-  font-family: 'Comic Sans MS', sans-serif;
-  font-size: 2.3rem;
-  color: #a77b5a;
-  margin: 0;
-}
-
+    .titulo-proyecto {
+      font-family: 'Comic Sans MS', sans-serif;
+      font-size: 2.3rem;
+      color: #a77b5a;
+      margin: 0;
+    }
 
     h1 {
       font-size: 2rem;
@@ -81,6 +80,7 @@
       border-radius: 15px;
       transition: transform 0.3s;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
     }
 
     .card:hover {
@@ -94,11 +94,13 @@
       font-weight: bold;
       font-size: 1.2rem;
       display: block;
+      pointer-events: none; /* Permite que el clic funcione en todo el div */
     }
 
     .card p {
       margin-top: 8px;
       font-size: 1rem;
+      pointer-events: none;
     }
 
     .volver {
@@ -153,7 +155,7 @@
 
   <h2>📘 Vocabulario</h2>
   <div class="tarjetas">
-    <div class="card">
+    <div class="card" data-link="vocabulario-comunidades.html">
       <a href="vocabulario-comunidades.html">📖 Ver vocabulario</a>
       <p>Adjetivos, ocupaciones y lugares con emojis.</p>
     </div>
@@ -161,15 +163,15 @@
 
   <h2>🎮 Juegos interactivos</h2>
   <div class="tarjetas">
-    <div class="card">
+    <div class="card" data-link="memorama-personas.html">
       <a href="memorama-personas.html">🧩 Memorama de profesiones</a>
       <p>Empareja ocupaciones con el lugar donde trabajan.</p>
     </div>
-    <div class="card">
+    <div class="card" data-link="donde-trabaja.html">
       <a href="donde-trabaja.html">🔍 ¿Dónde trabaja?</a>
-      <p>Observa la imagen y arrastrala al lugar correcto.</p>
+      <p>Observa la imagen y arrástrala al lugar correcto.</p>
     </div>
-    <div class="card">
+    <div class="card" data-link="ordena-ocupaciones.html">
       <a href="ordena-ocupaciones.html">🧠 Ordena las frases</a>
       <p>Ordena la frase para que esta tenga sentido.</p>
     </div>
@@ -177,13 +179,22 @@
 
   <h2>🧠 Quiz de práctica</h2>
   <div class="tarjetas">
-    <div class="card">
+    <div class="card" data-link="quiz-comunidades.html">
       <a href="quiz-comunidades.html">🎓 Quiz interactivo</a>
       <p>Responde preguntas sobre profesiones, lugares y cualidades.</p>
     </div>
   </div>
 
   <a class="volver" href="grado5.html">⬅ Volver a Niveles</a>
+
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        const link = card.getAttribute('data-link');
+        if (link) window.location.href = link;
+      });
+    });
+  </script>
 
 </body>
 </html>
